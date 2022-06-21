@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="kr.co.dw.user">
+  
+ <select id="checkEmail" resultType="int">
+	SELECT COUNT(*) from tbl_user WHERE uEmail = #{uEmail}
+</select> 
+  
+  
+
+<select id="checkNk" resultType="int">
+	SELECT COUNT(*) from tbl_user WHERE uNickname = #{uNickname}
+</select>
+
+
+<select id="checkId" resultType="int">
+	SELECT COUNT(*) from tbl_user WHERE userId = #{userId}
+</select>
+
+
+	<delete id="delete">
+	  	DELETE FROM tbl_user WHERE userId = #{userId}
+	</delete>
+
+
+
+<update id="update">
+
+	UPDATE tbl_user SET 
+	uName = #{uName}, uNickname = #{uNickname}, 
+	uPostnumber = #{uPostnumber}, uAddress = #{uAddress}, udetailAddress = #{udetailAddress},
+	uPhone = #{uPhone}, uEmail = #{uEmail}
+	WHERE userId = #{userId} AND uPassword = #{uPassword}
+
+</update>
+
+
+
+<select id="updateUI" resultType="UserDTO">
+
+		SELECT * FROM tbl_user WHERE userId = #{userId}
+
+</select>
+
+
+<select id="read" resultType="UserDTO">
+
+		SELECT * FROM tbl_user WHERE userId = #{userId}
+
+</select>
+
+  <insert id="insert">
+  	INSERT INTO tbl_user(userId, uName, uNickname, uPassword, uBirth, uPostnumber, uAddress, udetailAddress, uPhone, uEmail) 
+  	VALUES(#{userId}, #{uName}, #{uNickname}, #{uPassword}, #{uBirth}, #{uPostnumber}, #{uAddress}, #{udetailAddress}, #{uPhone}, #{uEmail})
+  </insert>  
+  
+
+<select id="list" resultType="UserDTO">		
+	SELECT * FROM tbl_user ORDER BY uSigndate ASC
+</select> 
+  
+  
+</mapper>

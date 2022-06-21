@@ -49,18 +49,20 @@ public class QnAController {
 	private final String UPLOADPATH = "C:" + File.separator + "coffeupload";
 	
 	
-	/*
-	 * @RequestMapping(value = "/makefolder", method = RequestMethod.GET) public
-	 * String makeFolder(Model model) {
-	 * 
-	 * UploadUtils.makeFolder(UPLOADPATH);
-	 * 
-	 * return "redirect:/"; }
-	 */
-	/*
-	 * @RequestMapping(value = "/", method = RequestMethod.GET) public String main()
-	 * { return "home"; }
-	 */
+	@RequestMapping(value = "/makefolder", method = RequestMethod.GET)
+	public String makeFolder(Model model) {
+		
+		UploadUtils.makeFolder(UPLOADPATH);
+
+		return "redirect:/";
+	}
+	
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String main() {
+		return "home";
+	}
+	
 	@RequestMapping(value = "/qna/insert", method = RequestMethod.GET)
 	public String insert() {
 		return "/qna/insert";
@@ -148,36 +150,48 @@ public class QnAController {
 		return entity;
 	}
 	
-	/*
-	 * @RequestMapping(value = "/displayfile", method = RequestMethod.GET) public
-	 * ResponseEntity<byte[]> displayFile(String filename) { ResponseEntity<byte[]>
-	 * entity = null;
-	 * 
-	 * InputStream in = null;
-	 * 
-	 * try { in = new FileInputStream(new File(UPLOADPATH, filename)); MediaType
-	 * mType = UploadUtils.getMediaType(filename);
-	 * 
-	 * HttpHeaders headers = new HttpHeaders();
-	 * 
-	 * if(mType != null) { headers.setContentType(mType); }else {
-	 * headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-	 * 
-	 * int idx = filename.indexOf("_") + 1;
-	 * 
-	 * String oriName = filename.substring(idx);
-	 * 
-	 * oriName = new String(oriName.getBytes("UTF-8"), "ISO-8859-1");
-	 * 
-	 * headers.add("Content-Disposition", "attachmentfilename=\""+oriName+"\""); }
-	 * 
-	 * entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers,
-	 * HttpStatus.OK); } catch (Exception e) { e.printStackTrace(); entity = new
-	 * ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST); } finally { if(in != null) {
-	 * try { in.close(); } catch (IOException e) { e.printStackTrace(); } } }
-	 * 
-	 * return entity; }
-	 */
+	@RequestMapping(value = "/displayfile", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> displayFile(String filename) {
+		ResponseEntity<byte[]> entity = null;
+		
+		InputStream in = null;
+		
+		try {
+			in = new FileInputStream(new File(UPLOADPATH, filename));
+			MediaType mType = UploadUtils.getMediaType(filename);
+			
+			HttpHeaders headers = new HttpHeaders();
+			
+			if(mType != null) {
+				headers.setContentType(mType);
+			}else {
+				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+				
+				int idx = filename.indexOf("_") + 1;
+				
+				String oriName = filename.substring(idx);
+				
+				oriName = new String(oriName.getBytes("UTF-8"), "ISO-8859-1");
+				
+				headers.add("Content-Disposition", "attachmentfilename=\""+oriName+"\"");	
+			}
+			
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+		} finally {
+			if(in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return entity;
+	}
 	
 	@Transactional
 	@RequestMapping(value = "/qna/delete/{qno}", method = RequestMethod.POST)
