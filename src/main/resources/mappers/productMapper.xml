@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.dw.product">
+
+<delete id="delete">
+
+
+DELETE FROM product WHERE pno = #{pno}
+</delete>
+
+<select id="read" resultType = "ProductDTO">
+
+
+SELECT * FROM product WHERE pno = #{pno}
+
+</select>
+
+ <update id="update">
+      UPDATE product SET pName = #{pName}, pContent =
+      #{pContent}, pPrice =
+      #{pPrice}, pStock = #{pStock}, pCategory = #{pCategory}, pSize = #{pSize},
+      pOrigin = #{pOrigin} WHERE pno = #{pno}
+
+   </update>
+
+   <select id="updateUI" resultType="ProductDTO">
+      SELECT * FROM product WHERE pno = #{pno}
+
+   </select>
+
+
+
+<select id="list" resultType="ProductDTO">
+
+
+      SELECT * FROM product 
+
+
+</select>
+
+<insert id="insert">
+
+INSERT INTO product 
+(pno, pName, pContent, pPrice, pStock, pCategory, pSize, pOrigin)
+VALUES 
+(seq_product_pno.NEXTVAL, #{pName}, #{pContent}, #{pPrice}, ${pStock}, #{pCategory}, #{pSize}, #{pOrigin})
+
+<selectKey keyProperty="pno" resultType="Integer" order="AFTER">
+SELECT seq_product_pno.CURRVAL FROM DUAL
+
+</selectKey>
+
+</insert>
+
+
+
+  
+</mapper>
