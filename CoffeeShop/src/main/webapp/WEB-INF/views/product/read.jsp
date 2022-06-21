@@ -13,24 +13,34 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="jumbotron">
+<h1>제품 정보</h1>
+제품번호 ${pDto.pno}
+<br>
 
-      <h1 class="text-center">제품 정보</h1>
-   </div>
-   
-    <div id="uploadedItems" class="row row-cols-3"></div>
-   제품번호 ${pDto.pno}
-   <br> 제품명 ${pDto.pName}
-   <br> 제품정보 ${pDto.pContent}
-   <br> 가격 ${pDto.pPrice}
-   <br> 재고량 ${pDto.pStock}
-   <br> 종류 ${pDto.pCategory}
-   <br> 용량 ${pDto.pSize}
-   <br> 원산지 ${pDto.pOrigin}
-   <br>
-   <br>
-   
-   구매수량
+
+
+
+
+
+
+
+
+
+제품명 ${pDto.pName}
+<br>
+제품정보 ${pDto.pContent}
+<br>
+가격 ${pDto.pPrice}
+<br>
+종류 ${pDto.pCategory} 
+<br> 
+원산지 ${pDto.pOrigin} 
+<br>
+재고 ${pDto.pStock}
+<br>
+<br>
+
+구매수량
 
 <form name="form1" action="card/insert" method="post">
 <input type="hidden" name = "pno" value="${pDto.pno}">
@@ -41,40 +51,35 @@
 </select>&nbsp; 개
 <br>
 <br>
-<input type = "submit" value = "장바구니에 담기">&nbsp;&nbsp;&nbsp; <input type = "submit" value = "바로 구매" >
+<input type = "submit" value = "장바구니에 담기">
 </form>
  <br>
-   
-
-
-  
-
-   <a href="/product/list">목록</a>
-   <a href="/product/update/${pDto.pno}">수정</a>
-   <a href = "#">삭제</a>
  
  
-  
-  
-  
+ 
+ <form action=""></form>
 
-   <form action=""></form>
-
-   <script type="text/javascript" src="/resources/js/tl.js"></script>
-   <script type="text/javascript">
-   let pno = ${pDto.pno};
-   
-    $(document).ready(function(){
-   
-   getAllUpload(pno, $("#uploadedItems"));   
+<a href = "/product/list">목록</a>  <a href = "/product/update/${pDto.pno}">수정</a>  
+<a href="#">삭제</a>
 
 
-   $("a:eq(2)").on("click", function() {
-       $("form").attr("action", "/product/delete/${pDto.pno}");
-       $("form").attr("method", "post");
-           $("form").submit();
-   }); 
-});
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	getAllupload(pno, $("#uploadedItems"))
+	
+	
+     $("a:eq(2)").on("click", function() {
+        $("form").attr("action", "/product/delete/${pDto.pno}");
+        $("form").attr("method", "post");
+            $("form").submit();
+    }); 
+    
+
+ });
 
 
 </script>
