@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="kr.co.dw.boss">
+  
+  
+  	<delete id="delete">
+  	
+  		 DELETE FROM tbl_boss WHERE bossId = #{bossId}
+  	
+  	</delete>
+  
+
+  	<update id="update">
+
+	UPDATE tbl_boss SET 
+	bName = #{bName}, bNickname = #{bNickname}, 
+	bPostnumber = #{bPostnumber}, bAddress = #{bAddress}, bdetailAddress = #{bdetailAddress},
+	bPhone = #{bPhone}, bEmail = #{bEmail}
+	WHERE bossId = #{bossId} AND bPassword = #{bPassword}
+
+	</update>
+  	
+  
+	<select id="updateUI" resultType="BossDTO">
+
+		SELECT * FROM tbl_boss WHERE bossId = #{bossId}
+
+	</select>
+
+	<select id="read" resultType="BossDTO">
+		SELECT * FROM tbl_boss WHERE bossId = #{bossId}
+	</select>	
+
+	<select id="list" resultType="BossDTO">
+		SELECT * FROM tbl_boss
+	</select>
+		
+	
+	 <insert id="insert">
+	  	INSERT INTO tbl_boss(bossId, bName, bNickname, bPassword, bBirth, bPostnumber, bAddress, bdetailAddress, bPhone, bEmail) 
+	  	VALUES(#{bossId}, #{bName}, #{bNickname}, #{bPassword}, #{bBirth}, #{bPostnumber}, #{bAddress}, #{bdetailAddress}, #{bPhone}, #{bEmail})
+	 </insert>  
+	  
+  
+</mapper>
