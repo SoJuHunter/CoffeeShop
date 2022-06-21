@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.dw.notice">
+
+	<update id="increaseReadCnt">
+	
+	UPDATE tbl_notice SET readCnt = readCnt + 1 WHERE nno = #{nno}
+	
+	</update>
+	
+	
+
+	<select id="list" resultType="NoticeDTO">
+		SELECT * FROM tbl_notice ORDER BY nno DESC
+	</select>
+
+	<insert id="insert">
+		INSERT INTO tbl_notice (nno, userId, nTitle,nContent) VALUES (seq_tbl_notice_nno.NEXTVAL, #{userId},#{nTitle},#{nContent})
+		<selectKey keyProperty="nno" resultType="Integer" order="AFTER">
+			SELECT seq_tbl_notice_nno.CURRVAL FROM DUAL
+		</selectKey>
+		
+	</insert>
+	<select id="read" resultType="NoticeDTO">
+		SELECT * FROM tbl_notice WHERE nno =
+		#{nno}
+	</select>
+
+	<delete id="delete">
+		DELETE FROM tbl_notice WHERE nno =#{nno}
+	</delete>
+	
+	<select id="updateUI" resultType="NoticeDTO">
+		SELECT * FROM tbl_notice WHERE nno = #{nno}
+	</select>
+
+	<update id="update">
+		UPDATE tbl_notice SET nTitle=#{nTitle}, userId=#{userId}, nContent=#{nContent}, nUpdatedate=SysDate WHERE nno = #{nno} 
+	</update>
+
+</mapper>
