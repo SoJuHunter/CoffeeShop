@@ -12,7 +12,7 @@ CREATE TABLE tbl_notice(
 CREATE SEQUENCE seq_tbl_notice_nno;
 
 select * from user_sequences
-SELECT * FROM notice_upload;
+SELECT * FROM tbl_notice;
 
 drop sequence seq_notice_nno;
 drop table tbl_notice;
