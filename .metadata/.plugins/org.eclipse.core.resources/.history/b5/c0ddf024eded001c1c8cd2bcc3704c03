@@ -1,0 +1,14 @@
+CREATE TABLE tbl_qna(
+	qno NUMBER,
+	userid VARCHAR2(300),
+	qTitle VARCHAR2(300),
+	qContent VARCHAR2(500),
+	qWriteDay DATE DEFAULT SYSDATE,
+	qUpdateDay DATE DEFAULT SYSDATE,
+	file_name VARCHAR2(40),
+	CONSTRAINT pk_qna_qno PRIMARY KEY(qno)
+)
+
+CREATE SEQUENCE seq_qna_qno
+
+DROP SEQUENCE seq_qna_qno

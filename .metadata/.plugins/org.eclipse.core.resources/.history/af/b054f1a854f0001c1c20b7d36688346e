@@ -1,0 +1,7 @@
+package kr.co.coffeemall.repository;
+
+public interface QnaUploadDAO {
+
+	void insert(String filename, int qno);
+
+}

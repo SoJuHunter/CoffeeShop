@@ -1,0 +1,50 @@
+package kr.co.coffeemall.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import kr.co.coffeemall.domain.QnaDTO;
+import kr.co.coffeemall.repository.QnADAO;
+import kr.co.coffeemall.repository.QnaUploadDAO;
+
+@Service
+public class QnAServiceImpl implements QnAService {
+
+	@Autowired
+	private QnADAO qnaDao;
+	
+	@Autowired
+	private QnaUploadDAO quploadDao;
+	
+	@Transactional
+	@Override
+	public void insert(QnaDTO qDto) {
+		qnaDao.insert(qDto);
+		
+		int qno = qDto.getQno();
+		List<String> list = qDto.getFilenameList();
+		
+		for(int i=0; i<list.size(); i++) {
+			String filename = list.get(i);
+			quploadDao.insert(filename, qno);
+		}
+	}
+
+	@Override
+	public List<String> list() {
+		return qnaDao.list();
+	}
+
+	@Transactional
+	@Override
+	public QnaDTO read(int qno, String ip) {
+		
+		qnaDao.increase(qno);
+		
+		return null;
+	}
+
+}

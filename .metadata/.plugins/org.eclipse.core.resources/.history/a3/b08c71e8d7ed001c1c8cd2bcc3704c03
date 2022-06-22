@@ -1,0 +1,45 @@
+package kr.co.coffeemall.domain;
+
+import java.io.Serializable;
+
+public class QnADTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
+	private int qno;
+	private String userId;
+	private String qTitle;
+	private String qContent;
+	private String qWriteDay;
+	private String qUpdateDate;
+	private String filename;
+	
+	public QnADTO() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public QnADTO(int qno, String userId, String qTitle, String qContent, String qWriteDay, String qUpdateDate) {
+		super();
+		this.qno = qno;
+		this.userId = userId;
+		this.qTitle = qTitle;
+		this.qContent = qContent;
+		this.qWriteDay = qWriteDay;
+		this.qUpdateDate = qUpdateDate;
+	}
+
+	public QnADTO(int qno, String userId, String qTitle, String qContent, String qWriteDay, String qUpdateDate,
+			String filename) {
+		super();
+		this.qno = qno;
+		this.userId = userId;
+		this.qTitle = qTitle;
+		this.qContent = qContent;
+		this.qWriteDay = qWriteDay;
+		this.qUpdateDate = qUpdateDate;
+		this.filename = filename;
+	}
+	
+	
+
+}

@@ -1,0 +1,25 @@
+package kr.co.coffeemall.repository;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import kr.co.coffeemall.domain.QnaDTO;
+
+@Repository
+public class QnADAOImpl implements QnADAO {
+	
+	@Autowired
+	private SqlSession sqlSession;
+	
+	private final String NAMECSPACE = "kr.co.coffeemall.qna";
+
+	@Override
+	public void insert(QnaDTO qDto) {
+		sqlSession.insert(NAMECSPACE+".insert", qDto);
+		
+	}
+	
+	
+	
+}

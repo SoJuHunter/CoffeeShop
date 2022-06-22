@@ -1,0 +1,5 @@
+package kr.co.coffeemall.domain;
+
+public class QnADTO {
+
+}

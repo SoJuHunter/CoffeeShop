@@ -1,0 +1,13 @@
+package kr.co.coffeemall.domain;
+
+import java.io.Serializable;
+
+public class PageDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	private int startPage;		//시작페이지
+	private int endPage;		//끝페이지
+	private boolean prev
+	
+}

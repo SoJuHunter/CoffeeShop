@@ -1,0 +1,17 @@
+package kr.co.coffeemall.domain;
+
+import java.io.Serializable;
+
+public class QnaDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	private int qno;
+	private String userid;
+	private String qTitle;
+	private String qContent;
+	private String qWriteDay;
+	private String qUpdateDay;
+	
+	
+	
+}

@@ -1,0 +1,9 @@
+package kr.co.coffeemall.repository;
+
+import java.util.Map;
+
+public interface QnAReplyDAO {
+
+	void insert(Map<String, Object> map);
+
+}

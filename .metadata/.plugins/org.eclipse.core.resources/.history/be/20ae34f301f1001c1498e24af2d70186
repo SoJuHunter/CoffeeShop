@@ -1,0 +1,11 @@
+package kr.co.coffeemall.repository;
+
+import java.util.Map;
+
+import kr.co.coffeemall.domain.QnAReplyDTO;
+
+public interface QnAReplyDAO {
+
+	void insert(QnAReplyDTO qnareplyDto);
+
+}

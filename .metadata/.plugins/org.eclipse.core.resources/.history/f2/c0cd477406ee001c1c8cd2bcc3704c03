@@ -1,0 +1,16 @@
+package kr.co.coffeemall.service;
+
+import org.springframework.stereotype.Service;
+
+import kr.co.coffeemall.domain.QnaDTO;
+
+@Service
+public class QnAServiceImpl implements QnAService {
+
+	@Override
+	public void insert(QnaDTO qDto) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

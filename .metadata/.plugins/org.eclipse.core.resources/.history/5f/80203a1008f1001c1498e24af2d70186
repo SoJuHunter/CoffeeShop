@@ -1,0 +1,9 @@
+package kr.co.coffeemall.service;
+
+import kr.co.coffeemall.domain.QnAReplyDTO;
+
+public interface QnAReplyService {
+
+	void insert(QnAReplyDTO qnareplyDto);
+
+}

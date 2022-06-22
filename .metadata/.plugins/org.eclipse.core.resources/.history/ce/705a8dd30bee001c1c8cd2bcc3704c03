@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.coffeemall.qna">
+
+	<insert id="insert">
+		INSERT INTO tbl_qna(qno, userid, qTitle, qContent, qWriteDay, qUpdateDay)
+		VALUES(seq_qna_qno.NEXTVAL, #{userid}, #{qTitle}, #{qContent}, SYSDATE, SYSDATE)
+		
+		<selectKey keyProperty="qno" resultType="integer" order="AFTER">
+			SELECT seq_qna_qno_CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+
+</mapper>

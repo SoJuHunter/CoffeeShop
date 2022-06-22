@@ -1,0 +1,20 @@
+package kr.co.coffeemall.domain;
+
+import java.io.Serializable;
+
+public class QnAPageDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	private int startPage;
+	private int endPage;
+	private boolean prev;
+	private boolean next;
+	private int total;
+	private Criteria cri;
+	
+	public QnAPageDTO() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

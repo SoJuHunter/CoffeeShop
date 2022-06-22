@@ -1,0 +1,8 @@
+INDEX VERSION 1.4+C:\Users\admin\Desktop\coffeeProject\coffeemall\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+120174244.index
+2824796650.index
+1428868929.index
+134609439.index
+136475183.index
+4277279623.index
+3193982346.index

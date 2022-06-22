@@ -1,0 +1,22 @@
+CREATE TABLE tbl_qna(
+qno NUMBER,
+userid VARCHAR2(300),
+qTitle VARCHAR2(300),
+qContent VARCHAR2(500),
+qWriteDay DATE DEFAULT SYSDATE,
+qUpdatedate DATE DEFAULT SYSDATE,
+CONSTRAINT tbl_qna PRIMARY KEY (qno)
+)
+
+DROP TABLE tbl_qna
+
+CREATE TABLE tbl_qna(
+	qno NUMBER,
+	userid VARCHAR2(300),
+	qTitle VARCHAR2(300),
+	qContent VARCHAR2(500),
+	qWriteDay DATE DEFAULT SYSDATE,
+	qUpdateDay DATE DEFAULT SYSDATE,
+	file_name VARCHAR2(40),
+	CONSTRAINT pk_qna_qno PRIMARY KEY(qno)
+)

@@ -1,0 +1,17 @@
+package kr.co.coffeemall.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class QnAUploadServiceImpl implements QnAUploadService {
+
+	@Override
+	public List<String> getAllUpload(int qno) {
+		
+		
+		return null;
+	}
+
+}

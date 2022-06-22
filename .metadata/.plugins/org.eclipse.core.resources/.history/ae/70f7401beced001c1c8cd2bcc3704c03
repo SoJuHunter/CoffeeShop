@@ -1,0 +1,9 @@
+package kr.co.coffeemall.repository;
+
+import kr.co.coffeemall.domain.QnADTO;
+
+public interface QnADAO {
+
+	void insert(QnADTO qDto);
+
+}

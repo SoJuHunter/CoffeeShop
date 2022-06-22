@@ -1,0 +1,18 @@
+package kr.co.coffeemall.domain;
+
+import java.io.Serializable;
+
+public class QnAPageDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	private int startPage;		//시작페이지
+	private int endPage;		//끝페이지
+	private boolean prev;		//이전 페이지 유무
+	private boolean next;		//다음 페이지 유무
+	
+	private int total;			//전체 레코드수
+	private QnACriteria cri;	//Criteria객체
+	
+	
+}

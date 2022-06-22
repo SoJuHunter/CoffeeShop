@@ -1,0 +1,8 @@
+package kr.co.coffeemall.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class QnAUploadServiceImpl implements QnAUploadService {
+
+}

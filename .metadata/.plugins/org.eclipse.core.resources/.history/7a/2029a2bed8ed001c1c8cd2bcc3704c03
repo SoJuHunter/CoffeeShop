@@ -1,0 +1,5 @@
+package kr.co.coffeemall.service;
+
+public interface QnAService {
+
+}

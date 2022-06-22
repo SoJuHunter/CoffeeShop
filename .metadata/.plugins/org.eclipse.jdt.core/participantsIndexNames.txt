@@ -1,0 +1,7 @@
+INDEX VERSION 1.131
+C:\Users\admin\Desktop\coffeeProject\coffeemall\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3236613998.index
+\projectName\src\main\java
+C:\Users\admin\Desktop\coffeeProject\coffeemall\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2403467519.index
+\projectName\src\main\java
+C:\Users\admin\Desktop\coffeeProject\coffeemall\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1428868929.index
+\projectName\src\main\java

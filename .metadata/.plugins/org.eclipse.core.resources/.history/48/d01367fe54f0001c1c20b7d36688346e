@@ -1,0 +1,9 @@
+package kr.co.coffeemall.service;
+
+import java.util.List;
+
+public interface QnAUploadService {
+
+	List<String> getAllUpload(int qno);
+
+}

@@ -1,0 +1,13 @@
+package kr.co.coffeemall.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class QnAServiceImpl {
+
+	@Autowired
+	private QnADAO qnaDao;
+	
+	
+}

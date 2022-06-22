@@ -1,0 +1,11 @@
+package kr.co.coffeemall.service;
+
+import java.util.Map;
+
+import kr.co.coffeemall.domain.QnaDTO;
+
+public interface QnAReplyService {
+
+	void insert(QnaDTO qnareplyDto);
+
+}

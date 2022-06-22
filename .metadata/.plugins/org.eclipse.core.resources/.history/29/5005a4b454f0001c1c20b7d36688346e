@@ -1,0 +1,28 @@
+package kr.co.coffeemall.repository;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class QnAUploadDAOImpl implements QnaUploadDAO {
+
+	@Autowired
+	private SqlSession sqlSession;
+	
+	private final String NAMESPACE = "kr.co.coffeemall.qnaupload";
+
+	@Override
+	public void insert(String filename, int qno) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("filename", filename);
+		map.put("qno", qno);
+		
+		sqlSession.insert(NAMESPACE+".insert", map);
+		
+	}
+	
+}

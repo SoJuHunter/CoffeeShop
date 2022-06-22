@@ -1,0 +1,22 @@
+package kr.co.coffeemall.repository;
+
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class QnAReplyDAOImpl implements QnAReplyDAO {
+
+	@Autowired
+	private SqlSession sqlSession;
+	
+	private final String NAMESPACE = "kr.co.coffeemall.reply";
+
+	@Override
+	public void insert(Map<String, Object> map) {
+		sqlSession.insert(NAMESPACE+".insert", map);
+		
+	}
+}

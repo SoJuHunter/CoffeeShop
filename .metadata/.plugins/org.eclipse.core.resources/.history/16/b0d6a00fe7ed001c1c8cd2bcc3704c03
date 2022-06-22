@@ -1,0 +1,7 @@
+package kr.co.coffeemall.service;
+
+import kr.co.coffeemall.domain.QnADTO;
+
+public interface QnAService {
+
+}

@@ -1,0 +1,44 @@
+package kr.co.coffeemall.utils;
+
+import java.io.File;
+import java.text.DecimalFormat;
+import java.util.Calendar;
+
+public class QnAUtils {
+
+	public static String uploadFile(String uploadPath, String orgName, byte[] fileData) {
+		String uploadedFilename = "";
+		
+		String datePath = makeFolder(uploadPath);
+	}
+
+	private static String makeFolder(String uploadPath) {
+		
+		Calendar cal = Calendar.getInstance();
+		
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH) + 1;
+		int date = cal.get(Calendar.DATE);
+		
+		File parentPath = new File(uploadPath);
+		
+		File yearFile = new File(parentPath, year + "");
+		if(!yearFile.exists()) {
+			yearFile.mkdir();
+		}
+		
+		File monthFile = new File(yearFile, new DecimalFormat("00").format(month));
+		if(!monthFile.exists()) {
+			monthFile.mkdir();
+		}
+		
+		File dateFile = new File(monthFile, new DecimalFormat("00").format(date));
+		if(!dateFile.exists()) {
+			dateFile.mkdir();
+		}
+		
+		return File.separator + year + File.separator + new DecimalFormat("00").format(month)
+				+ File.separator + new DecimalFormat("00").format(date);
+	}
+	
+}

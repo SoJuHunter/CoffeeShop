@@ -1,0 +1,18 @@
+package kr.co.coffeemall.domain;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class QnAPageDTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	private int total;	//전체 글의 행의 수
+	private int curPage;	//현재 페이지 번호
+	private int totalPage;	//전체 페이지 개수
+	private int startPage;	//시작 페이지 번호
+	private int endPage;	//종료 페이지 번호
+	private int pagingCount;	//페이징의 개수
+	private List<LprodDTO> content;	//게시글 데이터
+	
+}

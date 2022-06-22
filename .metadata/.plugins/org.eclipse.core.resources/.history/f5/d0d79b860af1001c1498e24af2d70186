@@ -1,0 +1,12 @@
+package kr.co.coffeemall.repository;
+
+
+import kr.co.coffeemall.domain.QnAReplyDTO;
+
+public interface QnAReplyDAO {
+
+	void insert(QnAReplyDTO qnareplyDto);
+
+	QnAReplyDTO getReply(int qno);
+
+}

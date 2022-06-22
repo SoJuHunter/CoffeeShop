@@ -1,0 +1,15 @@
+package projectName;
+
+public class QnAMapperTest {
+
+	 @Test
+     public void testGetListPaging() {
+         
+         Criteria cri = new Criteria();
+                          
+         List list = mapper.getListPaging(cri);
+         
+         list.forEach(board -> log.info("" + board));
+     }
+	
+}

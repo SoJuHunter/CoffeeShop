@@ -1,0 +1,145 @@
+package kr.co.coffeemall.domain;
+
+public class Pagination {
+	// 한 페이지당 게시글 수
+	private int pageSize = 10;
+	// 한 블럭 당 페이지 수
+	private int rangeSize = 10;
+	// 현재 페이지
+	private int curPage = 1;
+	// 현재 블럭
+	private int curRange = 1;
+	//총 게시글 수
+	private int listcnt;
+	//총 페이지 수
+	private int pagecnt;
+	//총 블럭 수
+	private int rangeCnt;
+	// 시작 페이지
+	private int startPage = 1;
+	// 끝 페이지
+	private int startIndex = 0;
+	// 이전 페이지
+	private int prevPage;
+	// 다음 페이지
+	private int nextPage;
+	
+	public Pagination() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Pagination(int pageSize, int rangeSize, int curPage, int curRange, int listcnt, int pagecnt, int rangeCnt,
+			int startPage, int startIndex, int prevPage, int nextPage) {
+		super();
+		this.pageSize = pageSize;
+		this.rangeSize = rangeSize;
+		this.curPage = curPage;
+		this.curRange = curRange;
+		this.listcnt = listcnt;
+		this.pagecnt = pagecnt;
+		this.rangeCnt = rangeCnt;
+		this.startPage = startPage;
+		this.startIndex = startIndex;
+		this.prevPage = prevPage;
+		this.nextPage = nextPage;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public int getRangeSize() {
+		return rangeSize;
+	}
+
+	public void setRangeSize(int rangeSize) {
+		this.rangeSize = rangeSize;
+	}
+
+	public int getCurPage() {
+		return curPage;
+	}
+
+	public void setCurPage(int curPage) {
+		this.curPage = curPage;
+	}
+
+	public int getCurRange() {
+		return curRange;
+	}
+
+	public void setCurRange(int curRange) {
+		this.curRange = curRange;
+	}
+
+	public int getListcnt() {
+		return listcnt;
+	}
+
+	public void setListcnt(int listcnt) {
+		this.listcnt = listcnt;
+	}
+
+	public int getPagecnt() {
+		return pagecnt;
+	}
+
+	public void setPagecnt(int pagecnt) {
+		this.pagecnt = pagecnt;
+	}
+
+	public int getRangeCnt() {
+		return rangeCnt;
+	}
+
+	public void setRangeCnt(int rangeCnt) {
+		this.rangeCnt = rangeCnt;
+	}
+
+	public int getStartPage() {
+		return startPage;
+	}
+
+	public void setStartPage(int startPage) {
+		this.startPage = startPage;
+	}
+
+	public int getStartIndex() {
+		return startIndex;
+	}
+
+	public void setStartIndex(int startIndex) {
+		this.startIndex = startIndex;
+	}
+
+	public int getPrevPage() {
+		return prevPage;
+	}
+
+	public void setPrevPage(int prevPage) {
+		this.prevPage = prevPage;
+	}
+
+	public int getNextPage() {
+		return nextPage;
+	}
+
+	public void setNextPage(int nextPage) {
+		this.nextPage = nextPage;
+	}
+
+	@Override
+	public String toString() {
+		return "Pageination [pageSize=" + pageSize + ", rangeSize=" + rangeSize + ", curPage=" + curPage + ", curRange="
+				+ curRange + ", listcnt=" + listcnt + ", pagecnt=" + pagecnt + ", rangeCnt=" + rangeCnt + ", startPage="
+				+ startPage + ", startIndex=" + startIndex + ", prevPage=" + prevPage + ", nextPage=" + nextPage + "]";
+	}
+	
+	
+	
+	
+}

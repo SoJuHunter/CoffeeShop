@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.coffeemall.reply">
+
+	<insert id="insert">
+		INSERT INTO tbl_qna_reply(qno, replyText, rno) VALUES(#{qno}, #{replyText}, seq_qna_reply_rno.NEXTVAL)
+	</insert>
+
+	<select id="reply" resultType="QnAReplyDTO">
+		SELECT * FROM tbl_qna_reply WHERe qno = #{qno}
+	</select>
+	
+</mapper>

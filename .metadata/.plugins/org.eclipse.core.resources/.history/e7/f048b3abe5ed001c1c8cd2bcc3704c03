@@ -1,0 +1,122 @@
+package kr.co.coffeemall.domain;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+import org.springframework.web.multipart.MultipartFile;
+
+public class QnADTO implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	private int qno;
+	private String userId;
+	private String qTitle;
+	private String qContent;
+	private String qWriteDay;
+	private String qUpdateDay;
+	private String file_name;
+	private MultipartFile uploadFile;
+	
+	public QnADTO() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public QnADTO(int qno, String userId, String qTitle, String qContent, String qWriteDay, String qUpdateDay,
+			String file_name) {
+		super();
+		this.qno = qno;
+		this.userId = userId;
+		this.qTitle = qTitle;
+		this.qContent = qContent;
+		this.qWriteDay = qWriteDay;
+		this.qUpdateDay = qUpdateDay;
+		this.file_name = file_name;
+	}
+
+	public int getQno() {
+		return qno;
+	}
+
+	public void setQno(int qno) {
+		this.qno = qno;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getqTitle() {
+		return qTitle;
+	}
+
+	public void setqTitle(String qTitle) {
+		this.qTitle = qTitle;
+	}
+
+	public String getqContent() {
+		return qContent;
+	}
+
+	public void setqContent(String qContent) {
+		this.qContent = qContent;
+	}
+
+	public String getqWriteDay() {
+		return qWriteDay;
+	}
+
+	public void setqWriteDay(String qWriteDay) {
+		this.qWriteDay = qWriteDay;
+	}
+
+	public String getqUpdateDay() {
+		return qUpdateDay;
+	}
+
+	public void setqUpdateDay(String qUpdateDay) {
+		this.qUpdateDay = qUpdateDay;
+	}
+
+	public String getFile_name() {
+		return file_name;
+	}
+
+	public void setFile_name(String file_name) {
+		this.file_name = file_name;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(qno);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		QnADTO other = (QnADTO) obj;
+		return qno == other.qno;
+	}
+
+	@Override
+	public String toString() {
+		return "QnADTO [qno=" + qno + ", userId=" + userId + ", qTitle=" + qTitle + ", qContent=" + qContent
+				+ ", qWriteDay=" + qWriteDay + ", qUpdateDay=" + qUpdateDay + ", file_name=" + file_name + "]";
+	}
+	
+	
+	
+}

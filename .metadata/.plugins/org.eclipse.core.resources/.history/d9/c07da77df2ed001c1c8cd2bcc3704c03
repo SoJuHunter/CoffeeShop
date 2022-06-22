@@ -1,0 +1,52 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CoffeeMall</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style type="text/css">
+	#uploadFile {
+		background-color: yellow;
+	}
+</style>
+</head>
+<body>
+	<h1>문의내용 작성</h1>
+	
+	<hr>
+
+
+	<table>
+		<form action="/qna/insert" method="post">
+			<tr>
+				<td><label for="userid">작성자</label></td>
+				<td><input id="userid" name="userid"></td>
+			</tr>
+	
+			<tr>
+				<td><label for="qTitle">제목</label></td>
+				<td><input id="qTitle" name="qTitle"></td>
+			</tr>
+	
+			<tr>
+				<td><label for="qContent">문의 내용</label></td>
+				<td><textarea row="10" id="qContent" name="qContent"></textarea></td>
+			</tr>
+		</form>
+		
+		<tr>
+			<td>파일첨부</td>
+			<td><input type="file" multiple></td>
+		</tr>
+
+		<tr>
+			<td><input type="submit" value="문의글 작성"></td>
+			<td><input type="button" onclick="location.assign('/qna/list')" value="목록 보기"></td>
+		</tr>
+
+	</table>
+
+</body>
+</html>

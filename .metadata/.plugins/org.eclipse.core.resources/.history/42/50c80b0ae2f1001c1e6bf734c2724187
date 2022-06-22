@@ -1,0 +1,49 @@
+package kr.co.coffeemall.domain;
+
+import java.io.Serializable;
+
+public class QnACriteria implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private int pageNum;
+	private int amount;
+	
+	public QnACriteria() {
+		this(1, 10);
+	}
+
+	public QnACriteria(int pageNum, int amount) {
+		this.pageNum = pageNum;
+		this.amount = amount;
+	}
+
+	public int getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	@Override
+	public String toString() {
+		return "QnACriteria [pageNum=" + pageNum + ", amount=" + amount + "]";
+	}
+	
+	
+	
+	
+}

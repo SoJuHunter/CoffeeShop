@@ -1,0 +1,13 @@
+CREATE TABLE tbl_qna(
+qno NUMBER,
+userid VARCHAR2(300),
+qTitle VARCHAR2(300),
+qContent VARCHAR2(500),
+qWriteDay DATE DEFAULT SYSDATE,
+qUpdatedate DATE DEFAULT SYSDATE,
+CONSTRAINT tbl_qna PRIMARY KEY (qno)
+)
+
+SELECT * FROM tbl_qna
+
+CREATE SEQUENCE seq_qna_qno

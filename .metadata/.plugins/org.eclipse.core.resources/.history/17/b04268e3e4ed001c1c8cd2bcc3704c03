@@ -1,0 +1,25 @@
+package kr.co.coffeemall.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import kr.co.coffeemall.domain.QnADTO;
+import kr.co.coffeemall.repository.QnADAO;
+
+@Service
+public class QnAServiceImpl implements QnAService{
+
+	@Autowired
+	private QnADAO qnaDao;
+
+	@Transactional
+	@Override
+	public void insert(QnADTO qDto) {
+		String filename = qDto.getFilename();
+		
+		
+	}
+	
+	
+}

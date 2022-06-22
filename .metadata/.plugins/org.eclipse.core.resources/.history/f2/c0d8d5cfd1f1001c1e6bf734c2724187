@@ -1,0 +1,21 @@
+package kr.co.coffeemall.service;
+
+import java.util.List;
+
+import kr.co.coffeemall.domain.QnaDTO;
+
+public interface QnAService {
+
+	void insert(QnaDTO qDto);
+
+	List<String> list();
+
+	QnaDTO read(int qno, String ip);
+
+	void delete(int qno);
+
+	QnaDTO updateUI(int qno);
+
+	void update(int qno, String[] arr, List<String> fileList);
+
+}
