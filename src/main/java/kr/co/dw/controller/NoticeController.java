@@ -35,7 +35,9 @@ public class NoticeController {
 	
 	@Autowired
 	private NoticeUploadService uService;
-	private String uploadPath = "C:" + File.separator + "upload";
+	
+	
+	private String uploadPath = "C:" + File.separator + "coffeeupload";
 	
 
 	
@@ -60,24 +62,95 @@ public class NoticeController {
 	
 	
 	
-	@RequestMapping(value = "/update", method=RequestMethod.POST) public String
-	update(NoticeDTO nDto) { nService.update(nDto);
-	  
-	return "redirect:/notice/read/"+nDto.getNno(); }
-	 
-	@RequestMapping(value="/update/{nno}", method =RequestMethod.GET)
-	public String updateUI(@PathVariable("nno")int nno, Model model) {
-		NoticeDTO nDto = nService.updateUI(nno);
-		model.addAttribute("nDto",nDto);
-		return "/notice/update";
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public ResponseEntity<String> update(MultipartHttpServletRequest request) {
 		
+		ResponseEntity<String> entity = null;
+		
+		
+		try {
+			String SNno  = request.getParameter("nno"); 
+			int nno = Integer.parseInt(SNno);
+			
+			String nTitle =	request.getParameter("nTitle");
+			
+			String userId =	request.getParameter("userId");
+			
+			String nContent = request.getParameter("nContent");
+			
+			String deleteFilenames = request.getParameter("deleteFilenameArr");
+			
+			
+			
+			String[] arr = deleteFilenames.split(",");
+			
+			
+			Map<String, MultipartFile>	map	=request.getFileMap();
+			List<String> fileList = new ArrayList<String>();
+			
+			
+			Set<String> set = map.keySet(); 
+			
+			Iterator<String> it = set.iterator();
+			while (it.hasNext()) {
+				String key =  it.next();
+				
+				MultipartFile file	= map.get(key);
+				String orgFilename = file.getOriginalFilename();
+				
+			try {
+				String uploadedFilename = UpUtils.uploadFile(uploadPath, orgFilename , file.getBytes());
+				fileList.add(uploadedFilename);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				
+			}
+	
+				
+			NoticeDTO nDto = new NoticeDTO(nno, nTitle, nContent, userId, null, null, 0, null);
+			
+			nService.update(nDto, arr, fileList);
+			
+			for (int i = 0; i < arr.length; i++) {
+				String deleteFilename  = arr[i];
+				UpUtils.deleteFile(uploadPath, deleteFilename);
+			}
+			
+			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>("FAIL", HttpStatus.BAD_GATEWAY);
+		}
+		
+	return  entity;
+}
+
+	@RequestMapping(value = "/update/{nno}", method = RequestMethod.GET)
+		public String updateUI(@PathVariable("nno") int nno, Model model) {
+		
+		
+		NoticeDTO nDto = nService.updateUI(nno);
+		model.addAttribute("nDto", nDto);
+		
+		return "/notice/update";
 	}
 	
 	
+	
 	@RequestMapping(value = "/delete/{nno}", method = RequestMethod.POST)
-	public String delete(@PathVariable("nno") int nno) {
+	public String delete(@PathVariable("nno") int nno, Model model) {
+		
+		List<String> list = uService.getAllUpload(nno);
+		System.out.println(list);
 		
 		nService.delete(nno);
+		for (int i = 0; i < list.size(); i++) {
+			String filename	= list.get(i);
+			UpUtils.deleteFile(uploadPath, filename);
+		}
+		
 		return "redirect:/notice/list";
 	}
 	

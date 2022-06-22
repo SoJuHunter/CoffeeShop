@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +16,6 @@
 <body>
 
    <h1 class="text-center">공지사항 자세히</h1>
-</div>
 
   <div class="form-group row">
     <label for="nno" class="col-sm-2 col-form-label col-form-label-lg">글번호</label>
@@ -65,22 +64,22 @@
   
   
  
-  
-<h4>첨부파일</h4>
-<div id="uploadedItems"></div>
-<form action=""></form>
+<div id="uploadedItems" class="row row-cols-lg-3">
+</div>
+
 
 <a class="btn btn-warning" href="/notice/update/${nDto.nno}">수정</a> 
 <a class="btn btn-danger delete" href="#">삭제</a> 
 <a class="btn btn-info" href="/notice/list">목록</a>
 
-<script type="text/javascript" src="/resources/js/tl.js"></script>
+<form action=""></form>
 
+<script type="text/javascript" src="/resources/js/notice.js?ver=1"></script>
 <script type="text/javascript">
    let nno = ${nDto.nno};
    $(function() {
 	   
-	   getAllUpload(nno, $("#uploaditems"));
+	   getAllUpload(nno, $("#uploadedItems"));
 	   
 	   
 	      $(".delete").on("click", function() {

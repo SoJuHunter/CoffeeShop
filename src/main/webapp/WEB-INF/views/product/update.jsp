@@ -24,6 +24,7 @@
 </head>
 <body>
 
+
 	<div class="jumbotron">
 		<h1 class="text-center">제품 정보 수정</h1>
 	</div>

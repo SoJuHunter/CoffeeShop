@@ -12,4 +12,8 @@
 		SELECT filename FROM notice_upload WHERE nno = #{nno}
 	</select>
 
+	<delete id="deleteUpload">
+		DELETE FROM notice_upload WHERE filename = #{filename}
+	</delete>
+
 </mapper>

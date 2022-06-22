@@ -32,4 +32,10 @@ public class NoticeUploadDAOImpl implements NoticeUploadDAO {
 		return sqlSession.selectList(NAMESPACE + ".getAllUpload", nno);
 	}
 
+	@Override
+	public void deleteUpload(String filename) {
+		// TODO Auto-generated method stub
+		sqlSession.delete(NAMESPACE+".deleteUpload", filename);
+	}
+
 }

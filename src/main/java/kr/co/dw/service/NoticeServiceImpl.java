@@ -49,18 +49,19 @@ public class NoticeServiceImpl implements NoticeService {
 			
 		}
 	}
-
+	@Transactional
 	@Override
 	public NoticeDTO read(int nno) {
 		nDao.increaseReadCnt(nno);
-		NoticeDTO nDto = nDao.read(nno);
+		NoticeDTO dto = nDao.read(nno);
 		//String nContent = nDto.getnContent().replaceAll("<br>",System.lineSeparator());
 		//nDto.setnContent(nContent);
 		
 		
-		return nDto;
+		return dto;
 	}
-
+	
+	@Transactional
 	@Override
 	public void delete(int nno) {
 		// TODO Auto-generated method stub
@@ -80,6 +81,7 @@ public class NoticeServiceImpl implements NoticeService {
 		
 	}
 	@Override
+	@Transactional
 	public NoticeDTO read(int nno, String ip) {
 			String readIp = readCntDao.read(ip, nno);
 			
@@ -87,9 +89,35 @@ public class NoticeServiceImpl implements NoticeService {
 				readCntDao.insert(ip,nno);
 				nDao.increaseReadCnt(nno);
 			}
-			NoticeDTO nDto = nDao.read(nno);
 			
-		return nDto;
+			
+		return nDao.read(nno);
 	}
 
+	@Override
+	public void update(NoticeDTO nDto, String[] arr, List<String> fileList) {
+		// TODO Auto-generated method stub
+			update(nDto, arr);
+		
+		for (int i = 0; i < fileList.size(); i++) {
+			String filename = fileList.get(i);
+			uDao.insert(filename, nDto.getNno());
+		}
+		
+	}
+
+	@Override
+	@Transactional
+	public void update(NoticeDTO nDto, String[] arr) {
+		update(nDto); //텍스트쪽에서 업데이트가 이루어졌고
+		
+		
+		for (int i = 0; i < arr.length; i++) {
+			String filename = arr[i];
+			uDao.deleteUpload(filename);
+		}
+		
+	}
+		
 }
+

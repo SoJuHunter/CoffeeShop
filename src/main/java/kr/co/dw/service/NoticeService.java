@@ -2,6 +2,7 @@ package kr.co.dw.service;
 
 import java.util.List;
 
+
 import kr.co.dw.domain.NoticeDTO;
 
 public interface NoticeService {
@@ -15,8 +16,11 @@ public interface NoticeService {
 
 	NoticeDTO updateUI(int nno);
 
-	void update(NoticeDTO nDto);
-
 	NoticeDTO read(int nno, String ip);
 
+	void update(NoticeDTO nDto, String[] arr, List<String> fileList);
+
+	void update(NoticeDTO nDto);
+	
+	void update(NoticeDTO bDto, String[] arr);
 }

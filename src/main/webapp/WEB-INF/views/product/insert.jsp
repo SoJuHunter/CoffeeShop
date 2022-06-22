@@ -14,14 +14,14 @@
 
 
 <style type="text/css">
-	#uploadFile{
-		width: 100%;
-		height: 250px;
-		border: 1px solid brown;
-	}
+   #uploadFile{
+      width: 100%;
+      height: 250px;
+      border: 1px solid brown;
+   }
 
 }
-	
+   
 
 </style>
 </head>
@@ -35,13 +35,13 @@
 재고 <input name = "pStock" id = "pStock" type = "number"><br>
 종류  <select class="form-control" name="pCategory" id="pCategory">
 
-					<option value="원두" selected="selected">원두</option>
+               <option value="원두" selected="selected">원두</option>
 
-					<option value="콜두부루">콜드부루</option>
+               <option value="콜두부루">콜드부루</option>
 
-					<option value = "블렉"> 블랙</option>
+               <option value = "블렉"> 블랙</option>
 
-				  </select> 
+              </select> 
 
 <br>
 용량 <input name = "pSize" id = "pSize"><br>
@@ -66,7 +66,7 @@
 
 
 
-
+<p class="card-text">${pText}</p>
 
 
 
@@ -74,91 +74,97 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-	
-	let formData  = new FormData();
-	let idx = 0;
-	
-	
+   
+   let formData  = new FormData();
+   let idx = 0;
+   
+   
 
-	
-	
+   
+   
 
-	   $("#uploadFile").on("dragenter dragover", function(event) {
-	      event.preventDefault();
-	   });
-	   
-	   $("#uploadFile").on("drop", function(event) {
-	      event.preventDefault();
-	      
-	      let files = event.originalEvent.dataTransfer.files;
-	      let file = files[0];
-	      
-	      
-	      formData.append("file"+idx, file);
-	      
-	       let reader = new FileReader(); 
-	       
-	       reader.readAsDataURL(file);
-	      
-	      reader.onload = function(event) {
-	         let str = test2(event.target.result, file["name"], "file"+ idx++);
-	         
-	         $("#uploadedItems"). append(str); 
-	      }
-	      
-	   });
-	   
-	
-		$("#uploadededItems").on("click",".btn_del_item", function(){
-			
-			let filekey = $(this).attr("data-filekey");
-			formData.delete(filekey);
-		    $(this).parent().parent().parent().remove();
-			
-			
-		});
-		
-	
-	
+      $("#uploadFile").on("dragenter dragover", function(event) {
+         event.preventDefault();
+      });
+      
+      $("#uploadFile").on("drop", function(event) {
+         event.preventDefault();
+         
+         let files = event.originalEvent.dataTransfer.files;
+         let file = files[0];
+         
+         
+         formData.append("file"+idx, file);
+         
+          let reader = new FileReader(); 
+          
+          reader.readAsDataURL(file);
+         
+         reader.onload = function(event) {
+            let str = test2(event.target.result, file["name"], "file"+ idx++);
+            
+            $("#uploadedItems"). append(str); 
+         }
+         
+      });
+      
+   
 
-	$("#btn_submit").click(function(event){
-		 event.preventDefault(); 
-		
-		let pName = $("#pName").val();
-		let pContent = $("#pContent").val();
-		let pPrice = $("#pPrice").val();
-		let pCategory = $("#pCategory").val();
-		let pStock = $("#pStock").val();
-		let pSize = $("#pSize").val();
-		let pOrigin = $("#pOrigin").val();
-		
-		formData.append("pName", pName);
-		formData.append("pContent", pContent);
-		formData.append("pPrice", pPrice);
-		formData.append("pCategory", pPrice);
-		formData.append("pStock", pStock);
-		formData.append("pSize", pSize);
-		formData.append("pOrigin", pOrigin);
-		
-		
-		$.ajax({
-			type : "post",
-			url : "/product/insert",
-			processData: false,
-			contentType: false,
-			data : formData,
-			dataType : "text",
-			success : function(pno) {
-				location.assign("/product/read/"+pno);
-				
-		
-			}	
-				
-		});
-		
-		
-	});
-	
+      $("#uploadedItems").on("click", ".btn_del_item", function() {
+         let filename = $(this).attr("data-filename");
+         
+         if(filename == "new"){
+            let filekey = $(this).attr("data-filekey");
+            formData.delete(filekey);
+         }else{
+            deletFilenameArr.push(filename);
+         }
+         
+         $(this).parent().parent().parent().remove();
+      });
+      
+      
+   
+   
+
+   $("#btn_submit").click(function(event){
+       event.preventDefault(); 
+      
+      let pName = $("#pName").val();
+      let pContent = $("#pContent").val();
+      let pPrice = $("#pPrice").val();
+      let pCategory = $("#pCategory").val();
+      let pStock = $("#pStock").val();
+      let pSize = $("#pSize").val();
+      let pOrigin = $("#pOrigin").val();
+      
+      formData.append("pName", pName);
+      formData.append("pContent", pContent);
+      formData.append("pPrice", pPrice);
+      formData.append("pCategory", pPrice);
+      formData.append("pStock", pStock);
+      formData.append("pSize", pSize);
+      formData.append("pOrigin", pOrigin);
+      
+      
+      $.ajax({
+         type : "post",
+         url : "/product/insert",
+         processData: false,
+         contentType: false,
+         data : formData,
+         dataType : "text",
+         success : function(pno) {
+            location.assign("/product/read/"+pno);
+            
+      
+         }   
+            
+      });
+      
+      
+   });
+   
 });
 
 
