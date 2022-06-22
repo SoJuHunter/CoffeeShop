@@ -24,4 +24,6 @@ public interface UserService {
 
 	int checkEmail(String uEmail);
 
+	UserDTO login(UserDTO uDTO);
+
 }

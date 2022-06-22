@@ -24,4 +24,6 @@ public interface UserDAO {
 
 	int checkEmail(String uEmail);
 
+	UserDTO login(UserDTO uDTO);
+
 }

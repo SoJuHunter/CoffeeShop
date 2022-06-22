@@ -31,6 +31,34 @@ public class UserController {
 	private AdminService aService;
 	
 	
+
+	@RequestMapping(value = "/user/logout", method = RequestMethod.GET)
+	public String logout() {
+	
+	
+	return "redirect:/user/loginget";
+}
+	
+	
+	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
+		public String login(UserDTO uDTO, Model model) {
+			
+		
+		UserDTO login = uService.login(uDTO);
+		model.addAttribute("login", login);
+		
+		
+		return "redirect:/user/list";
+	}
+	
+	
+	@RequestMapping(value = "/user/loginget", method = RequestMethod.GET)
+		public String login() {
+		
+		
+		return "/user/login";
+	}
+	
 	
 	
 	@RequestMapping(value = "/admin/delete/{adminId}", method = RequestMethod.POST)

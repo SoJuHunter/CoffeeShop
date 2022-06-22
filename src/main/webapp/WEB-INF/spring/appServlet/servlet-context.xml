@@ -29,7 +29,33 @@
 	
 	<context:component-scan base-package="kr.co.dw.controller" />
 	
+	<beans:bean id = "loginHandlerInterceptor" class = "kr.co.dw.interceptor.LoginHandlerInterceptor"></beans:bean>
+	<beans:bean id = "authHandlerInterceptor" class = "kr.co.dw.interceptor.AuthHandlerInterceptor"></beans:bean>
+	<beans:bean id = "logoutHandlerInterceptor" class = "kr.co.dw.interceptor.LogoutHandlerInterceptor"></beans:bean>
+
 	
+<interceptors>
+		<interceptor>
+			<mapping path="/user/logout"/>
+     		<beans:ref bean = "logoutHandlerInterceptor"/>	
+		</interceptor>
+	
+	
+		<interceptor>
+       		<mapping path="/user/delete/*"/>
+        	<mapping path="/user/update"/>
+        	<mapping path="/user/update/*"/>
+       		<beans:ref bean = "authHandlerInterceptor"/>
+       </interceptor>
+       
+	
+	
+	
+		<interceptor>
+			<mapping path="/user/login"/>
+			<beans:ref bean="loginHandlerInterceptor"/>		
+		</interceptor>
+	</interceptors>
 	
 	
 	
