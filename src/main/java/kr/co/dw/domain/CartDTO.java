@@ -6,32 +6,36 @@ import java.util.Objects;
 public class CartDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	private int cartNum;
+	private int cartId;
 	private String userId;
 	private int pno;
-	private int cartStock;
-	private String addDate;
+	private int cartCount;
+	private String pName;
+	private int pPrice;
+	private int totalPrice;
 	
 	public CartDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public CartDTO(int cartNum, String userId, int pno, int cartStock, String addDate) {
+	public CartDTO(int cartId, String userId, int pno, int cartCount, String pName, int pPrice, int totalPrice) {
 		super();
-		this.cartNum = cartNum;
+		this.cartId = cartId;
 		this.userId = userId;
 		this.pno = pno;
-		this.cartStock = cartStock;
-		this.addDate = addDate;
+		this.cartCount = cartCount;
+		this.pName = pName;
+		this.pPrice = pPrice;
+		this.totalPrice = totalPrice;
 	}
 
-	public int getCartNum() {
-		return cartNum;
+	public int getCartId() {
+		return cartId;
 	}
 
-	public void setCartNum(int cartNum) {
-		this.cartNum = cartNum;
+	public void setCartId(int cartId) {
+		this.cartId = cartId;
 	}
 
 	public String getUserId() {
@@ -50,21 +54,35 @@ public class CartDTO implements Serializable{
 		this.pno = pno;
 	}
 
-	public int getCartStock() {
-		return cartStock;
+	public int getCartCount() {
+		return cartCount;
 	}
 
-	public void setCartStock(int cartStock) {
-		this.cartStock = cartStock;
+	public void setCartCount(int cartCount) {
+		this.cartCount = cartCount;
 	}
 
-	public String getAddDate() {
-		return addDate;
+	public String getpName() {
+		return pName;
 	}
 
-	public void setAddDate(String addDate) {
-		this.addDate = addDate;
+	public void setpName(String pName) {
+		this.pName = pName;
 	}
+
+	public int getpPrice() {
+		return pPrice;
+	}
+
+	public void setpPrice(int pPrice) {
+		this.pPrice = pPrice;
+	}
+
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+
+
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -72,7 +90,7 @@ public class CartDTO implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cartNum);
+		return Objects.hash(cartId);
 	}
 
 	@Override
@@ -84,13 +102,16 @@ public class CartDTO implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		CartDTO other = (CartDTO) obj;
-		return cartNum == other.cartNum;
+		return cartId == other.cartId;
 	}
 
 	@Override
 	public String toString() {
-		return "CartDTO [cartNum=" + cartNum + ", userId=" + userId + ", pno=" + pno + ", cartStock=" + cartStock
-				+ ", addDate=" + addDate + "]";
+		return "CartDTO [cartId=" + cartId + ", userId=" + userId + ", pno=" + pno + ", cartCount=" + cartCount
+				+ ", pName=" + pName + ", pPrice=" + pPrice + ", totalPrice=" + totalPrice + "]";
 	}
 	
+	public void settingTotalPrice() {
+		this.totalPrice = this.pPrice*this.cartCount;
+	}
 }

@@ -1,0 +1,13 @@
+CREATE TABLE tbl_cart(
+cartId NUMBER GENERATED AS IDENTITY (START WITH 1),
+userId VARCHAR2(100),
+pno NUMBER NOT NULL,
+cartCount NUMBER NOT NULL,
+CONSTRAINT pk_cart_cartId PRIMARY KEY(cartId),
+CONSTRAINT fk_cart_userId FOREIGN KEY(userId) REFERENCES tbl_user(userId),
+CONSTRAINT fk_cart_pno FOREIGN KEY(pno) REFERENCES product(pno)
+);
+
+CREATE SEQUENCE seq_cartId;
+
+ALTER TABLE tbl_cart ADD UNIQUE (userId, pno);
