@@ -40,4 +40,10 @@ public class UploadDAOImpl implements UploadDAO {
 		
 	}
 
+	@Override
+	public List<String> list(int pno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE+".list", pno);
+	}
+
 }

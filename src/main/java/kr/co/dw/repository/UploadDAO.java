@@ -9,4 +9,6 @@ public interface UploadDAO {
 	void insert(String filename, int pno);
 	
 	void deleteUpload(String filename);
+
+	List<String> list(int pno);
 }

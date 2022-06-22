@@ -17,7 +17,7 @@ SELECT * FROM product WHERE pno = #{pno}
 
 </select>
 
- <update id="update">
+  <update id="update">
       UPDATE product SET pName = #{pName}, pContent =
       #{pContent}, pPrice =
       #{pPrice}, pStock = #{pStock}, pCategory = #{pCategory}, pSize = #{pSize},
@@ -25,12 +25,12 @@ SELECT * FROM product WHERE pno = #{pno}
 
    </update>
 
-   <select id="updateUI" resultType="ProductDTO">
-      SELECT * FROM product WHERE pno = #{pno}
-
-   </select>
 
 
+<select id="updateUI" resultType="ProductDTO">
+SELECT * FROM product WHERE pno = #{pno}
+
+</select>
 
 <select id="list" resultType="ProductDTO">
 
