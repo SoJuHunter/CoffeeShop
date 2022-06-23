@@ -10,10 +10,10 @@ import kr.co.dw.repository.QnaUploadDAO;
 
 @Service
 public class QnAUploadServiceImpl implements QnAUploadService {
-	
+
 	@Autowired
 	private QnaUploadDAO qnauploadDao;
-
+	
 	@Override
 	public List<String> getAllUpload(int qno) {
 		

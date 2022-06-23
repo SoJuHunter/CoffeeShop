@@ -3,3 +3,5 @@ CREATE TABLE tbl_readcnt_ip(
 	qno NUMBER,
 	CONSTRAINT pk_readcnt_ipNqno PRIMARY KEY(ip, qno)
 )
+
+SELECT * FROM tbl_readcnt_ip

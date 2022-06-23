@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.co.dw.domain.Criteria;
 import kr.co.dw.domain.QnaDTO;
 import kr.co.dw.repository.QnADAO;
 import kr.co.dw.repository.QnAReadCntDAO;
@@ -13,7 +14,7 @@ import kr.co.dw.repository.QnaUploadDAO;
 
 @Service
 public class QnAServiceImpl implements QnAService {
-	
+
 	@Autowired
 	private QnADAO qnaDao;
 	
@@ -22,7 +23,7 @@ public class QnAServiceImpl implements QnAService {
 	
 	@Autowired
 	private QnAReadCntDAO qReadCntDao;
-
+	
 	@Transactional
 	@Override
 	public void insert(QnaDTO qDto) {
@@ -65,5 +66,50 @@ public class QnAServiceImpl implements QnAService {
 		qnaDao.delete(qno);
 		
 	}
+
+
+	@Override
+	public QnaDTO updateUI(int qno) {
+		return qnaDao.updateUI(qno);
+	}
+
+
+	@Transactional
+	@Override
+	public void update(QnaDTO qDto, String[] arr, List<String> fileList) {
+		qnaDao.update(qDto);
+		
+		for(int i=0; i<arr.length; i++) {
+			String delFilename = arr[i];
+			quploadDao.deleteUpload(delFilename);
+		}
+		
+		for(int i=0; i<fileList.size(); i++) {
+			String filename = fileList.get(i);
+			quploadDao.insert(filename, qDto.getQno());
+		}
+		
+	}
+
+
+	@Override
+	public int getListCount() {
+		return 0;
+	}
+
+
+	@Override
+	public List<QnaDTO> getListPaging(Criteria cri) {
+		
+		return qnaDao.getListPaging(cri);
+	}
+
+
+	@Override
+	public int getTotal() {
+		return qnaDao.getTotal();
+	}
+	
+	
 	
 }

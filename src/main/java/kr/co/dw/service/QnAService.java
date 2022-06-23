@@ -2,8 +2,8 @@ package kr.co.dw.service;
 
 import java.util.List;
 
+import kr.co.dw.domain.Criteria;
 import kr.co.dw.domain.QnaDTO;
-
 
 public interface QnAService {
 
@@ -14,4 +14,15 @@ public interface QnAService {
 	QnaDTO read(int qno, String ip);
 
 	void delete(int qno);
+
+	QnaDTO updateUI(int qno);
+
+	void update(QnaDTO qDto, String[] arr, List<String> fileList);
+
+	int getListCount();
+
+	public List<QnaDTO> getListPaging(Criteria cri);
+	
+
+    public int getTotal();
 }

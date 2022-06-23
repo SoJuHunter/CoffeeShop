@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-
 public class QnaDTO implements Serializable{
+
 	private static final long serialVersionUID = 1L;
 	private int qno;
 	private String userid;
@@ -19,7 +19,7 @@ public class QnaDTO implements Serializable{
 	public QnaDTO() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public QnaDTO(int qno, String userid, String qTitle, String qContent, String qWriteDay, String qUpdateDay, int readCnt) {
 		super();
 		this.qno = qno;
@@ -30,6 +30,9 @@ public class QnaDTO implements Serializable{
 		this.qUpdateDay = qUpdateDay;
 		this.readCnt = readCnt;
 	}
+	
+	
+
 	public QnaDTO(int qno, String userid, String qTitle, String qContent, String qWriteDay, String qUpdateDay,
 			List<String> filenameList, int readcnt) {
 		super();
@@ -137,6 +140,9 @@ public class QnaDTO implements Serializable{
 				+ ", qWriteDay=" + qWriteDay + ", qUpdateDay=" + qUpdateDay + ", filenameList=" + filenameList
 				+ ", readCnt=" + readCnt + "]";
 	}
+
+	
+	
 	
 	
 }

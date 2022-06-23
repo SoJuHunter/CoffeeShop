@@ -15,7 +15,7 @@ public class QnAUploadDAOImpl implements QnaUploadDAO {
 	private SqlSession sqlSession;
 	
 	private final String NAMESPACE = "kr.co.dw.qnaupload";
-	
+
 	@Override
 	public void insert(String filename, int qno) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -35,5 +35,11 @@ public class QnAUploadDAOImpl implements QnaUploadDAO {
 	public void delete(int qno) {
 		sqlSession.delete(NAMESPACE+".delete", qno);
 	}
-
+	
+	@Override
+	public void deleteUpload(String delFilename) {
+		sqlSession.delete(NAMESPACE+".deleteUpload", delFilename);
+		
+	}
+	
 }

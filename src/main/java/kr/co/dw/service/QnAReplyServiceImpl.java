@@ -1,5 +1,6 @@
 package kr.co.dw.service;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import kr.co.dw.repository.QnAReplyDAO;
 
 @Service
 public class QnAReplyServiceImpl implements QnAReplyService {
+
 	@Autowired
 	private QnAReplyDAO qnareplyDao;
 
@@ -22,5 +24,17 @@ public class QnAReplyServiceImpl implements QnAReplyService {
 	public List<QnAReplyDTO> getReply(int qno) {
 		return qnareplyDao.getReply(qno);
 	}
+
+	@Override
+	public void delete(QnAReplyDTO qDto) {
+		qnareplyDao.delete(qDto);
+		
+	}
+
+	@Override
+	public void update(QnAReplyDTO qDto) {
+		qnareplyDao.update(qDto);
+	}
+
 
 }

@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class QnAReplyDTO implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
+
 	private int qno;
 	private String replyText;
 	private int rno;
@@ -71,4 +70,9 @@ public class QnAReplyDTO implements Serializable{
 		return "QnAReplyDTO [qno=" + qno + ", replyText=" + replyText + ", rno=" + rno + "]";
 	}
 
+	
+	
+	
+	
+	
 }
