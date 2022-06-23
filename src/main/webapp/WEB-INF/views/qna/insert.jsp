@@ -17,7 +17,6 @@
 	
 	<hr>
 
-
 	<table>
 			<tr>
 				<td>작성자</td>

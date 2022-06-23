@@ -13,9 +13,8 @@ public class QnAReadCntDAOImpl implements QnAReadCntDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	private final String NAMESPACE = "kr.co.dw.quareadcnt";
-	
-	
+	private final String NAMESPACE = "kr.co.dw.qnareadcnt";
+
 	@Override
 	public String read(String ip, int qno) {
 		
@@ -37,5 +36,4 @@ public class QnAReadCntDAOImpl implements QnAReadCntDAO {
 		
 		
 	}
-
 }

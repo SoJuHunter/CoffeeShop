@@ -8,6 +8,8 @@ CREATE TABLE tbl_qna(
 	CONSTRAINT pk_qna_qno PRIMARY KEY(qno)
 )
 
+
+
 ALTER TABLE tbl_qna ADD(readCnt NUMBER)
 
 

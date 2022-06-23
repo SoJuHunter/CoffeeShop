@@ -10,4 +10,6 @@ public interface QnaUploadDAO {
 
 	void delete(int qno);
 
+	void deleteUpload(String delFilename);
+
 }

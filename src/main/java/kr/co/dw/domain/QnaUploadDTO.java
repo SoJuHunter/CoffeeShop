@@ -3,17 +3,17 @@ package kr.co.dw.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
-
 public class QnaUploadDTO implements Serializable{
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private int qno;
 	private String fileName;
 	
 	public QnaUploadDTO() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public QnaUploadDTO(int qno, String fileName) {
 		super();
 		this.qno = qno;
@@ -61,5 +61,6 @@ public class QnaUploadDTO implements Serializable{
 	public String toString() {
 		return "QnaUploadDTO [qno=" + qno + ", fileName=" + fileName + "]";
 	}
-
+	
+	
 }

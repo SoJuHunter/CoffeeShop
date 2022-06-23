@@ -28,5 +28,24 @@
 	<delete id="delete">
 		DELETE FROM tbl_qna WHERE qno = #{qno}
 	</delete>
+	
+  	<select id="getListPaging" resultType="QnaDTO">
+    
+	    <![CDATA[
+	        
+	        select qno, userid, qTitle, qContent, qWriteDay, qUpdateDay, readCnt from(
+	        
+	                select rownum  as rn, qno, userid, qTitle, qContent, qWriteDay, qUpdateDay, readCnt
+	                  
+	                from tbl_qna where rownum <= #{pageNum} * #{amount}) 
+	                
+	        where rn > (#{pageNum} -1) * #{amount}
+	    
+	    ]]>
+	</select>
+	
+	<select id="getTotal" resultType="int">
+		SELECT count(qno) FROM tbl_qna 
+	</select>
 
 </mapper>

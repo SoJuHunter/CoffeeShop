@@ -6,12 +6,15 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.co.dw.domain.Criteria;
 import kr.co.dw.domain.QnaDTO;
 
 @Repository
 public class QnADAOImpl implements QnADAO {
+	
 	@Autowired
 	private SqlSession sqlSession;
+	
 	private final String NAMECSPACE = "kr.co.dw.qna";
 
 	@Override
@@ -40,4 +43,27 @@ public class QnADAOImpl implements QnADAO {
 	public void delete(int qno) {
 		sqlSession.delete(NAMECSPACE+".delete", qno);		
 	}
+
+	@Override
+	public QnaDTO updateUI(int qno) {
+		return sqlSession.selectOne(NAMECSPACE+".updateUI", qno);
+	}
+	
+	@Override
+	public void update(QnaDTO qDto) {
+		sqlSession.update(NAMECSPACE+".update", qDto);
+		
+	}
+
+	@Override
+	public List<QnaDTO> getListPaging(Criteria cri) {
+		return sqlSession.selectList(NAMECSPACE+".getListPaging", cri);
+	}
+
+	@Override
+	public int getTotal() {
+		return sqlSession.selectOne(NAMECSPACE+".getTotal");
+	}
+	
+	
 }

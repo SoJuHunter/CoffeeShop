@@ -1,6 +1,7 @@
 package kr.co.dw.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,11 @@ import kr.co.dw.domain.QnAReplyDTO;
 
 @Repository
 public class QnAReplyDAOImpl implements QnAReplyDAO {
-	
+
 	@Autowired
 	private SqlSession sqlSession;
 	
-	private final String NAMESPACE = "kr.co.dw.reply";
+	private final String NAMESPACE = "kr.co.dw.qnareply";
 
 	@Override
 	public void insert(QnAReplyDTO qnareplyDto) {
@@ -27,4 +28,16 @@ public class QnAReplyDAOImpl implements QnAReplyDAO {
 		return sqlSession.selectList(NAMESPACE+".reply", qno);
 	}
 
+
+	@Override
+	public void delete(QnAReplyDTO qDto) {
+		sqlSession.delete(NAMESPACE+".delete", qDto);
+		
+	}
+
+	@Override
+	public void update(QnAReplyDTO qDto) {
+		sqlSession.update(NAMESPACE+".update", qDto);
+		
+	}
 }
