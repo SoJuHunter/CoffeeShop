@@ -75,10 +75,17 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.selectOne(NAMESPACE+".checkEmail", uEmail);
 	}
 
+
 	@Override
 	public UserDTO login(UserDTO uDTO) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(NAMESPACE+".login", uDTO);
+	}
+
+	@Override
+	public UserDTO findid(UserDTO uDTO) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".findid", uDTO);
 	}
 
 }

@@ -26,4 +26,6 @@ public interface UserDAO {
 
 	UserDTO login(UserDTO uDTO);
 
+	UserDTO findid(UserDTO uDTO);
+
 }

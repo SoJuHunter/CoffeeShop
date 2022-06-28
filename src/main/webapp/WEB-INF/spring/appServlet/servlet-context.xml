@@ -23,18 +23,21 @@
 	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="10485760"></beans:property>
-	
 	</beans:bean>
 	
-	
+	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"></beans:bean>
+
 	<context:component-scan base-package="kr.co.dw.controller" />
+	
+	
+	
 	
 	<beans:bean id = "loginHandlerInterceptor" class = "kr.co.dw.interceptor.LoginHandlerInterceptor"></beans:bean>
 	<beans:bean id = "authHandlerInterceptor" class = "kr.co.dw.interceptor.AuthHandlerInterceptor"></beans:bean>
 	<beans:bean id = "logoutHandlerInterceptor" class = "kr.co.dw.interceptor.LogoutHandlerInterceptor"></beans:bean>
 
 	
-<interceptors>
+	<interceptors>
 		<interceptor>
 			<mapping path="/user/logout"/>
      		<beans:ref bean = "logoutHandlerInterceptor"/>	
@@ -57,6 +60,5 @@
 		</interceptor>
 	</interceptors>
 	
-	
-	
+
 </beans:beans>

@@ -26,4 +26,6 @@ public interface UserService {
 
 	UserDTO login(UserDTO uDTO);
 
+	UserDTO findid(UserDTO uDTO);
+
 }

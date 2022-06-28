@@ -21,9 +21,9 @@
 	<input type="submit" value="로그인 완료"> 
 </form>
 
-<a href="#">아이디찾기</a> &nbsp; <a href="#">비밀번호찾기</a> &nbsp; <a href="/user/insert">회원가입</a>
-<br>
 
+<a href="/user/findidget">아이디찾기</a> &nbsp; <a href="#">비밀번호찾기</a> &nbsp; <a href="/user/insert">회원가입</a>
+<br>
 
 <ul>
 	<li onclick="kakaoLogin();">
@@ -71,7 +71,6 @@
 	    success: function (response) {
 	      Kakao.API.request({
 	        url: '/v2/user/me',
-	        callbackUrl: "http://localhost:8900/user/list",
 	        success: function (response) {
 	      	  console.log(response)
 	        },
@@ -85,6 +84,10 @@
 	    },
 	  })
 	}
+	
+	
+
+	
 	
 	//카카오로그아웃  
 	function kakaoLogout() {

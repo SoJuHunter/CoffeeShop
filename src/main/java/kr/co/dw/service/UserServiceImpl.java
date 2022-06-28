@@ -70,9 +70,17 @@ public class UserServiceImpl implements UserService {
 		return uDAO.checkEmail(uEmail);
 	}
 
+
 	@Override
 	public UserDTO login(UserDTO uDTO) {
 		// TODO Auto-generated method stub
 		return uDAO.login(uDTO);
 	}
+
+	@Override
+	public UserDTO findid(UserDTO uDTO) {
+		// TODO Auto-generated method stub
+		return uDAO.findid(uDTO);
+	}
+
 }

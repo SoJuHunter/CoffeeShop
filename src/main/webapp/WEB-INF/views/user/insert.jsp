@@ -15,7 +15,6 @@
 <body>
 <h1>회원 가입 화면입니다</h1>
 <form id="addForm" action="/user/insert" method="post">
-<input type="hidden" id="userIdCheck" name="userIdCheck" value="N">
 	ID :  <input id="userId" name="userId">&nbsp;<button type="button" id="userIdCheck" onclick="idCheckFn()">중복확인</button><br>
 	비밀번호 : <input id="uPassword" name="uPassword" type="password" ><br>
 	비밀번호 확인 : <input id="uPassword2" type="password"><br>
@@ -29,7 +28,7 @@
 	핸드폰번호: <input name="uPhone" placeholder="000-0000-0000"><br>
 	이메일 : <input id="uEmail" name="uEmail">&nbsp;<button type="button" onclick="emailCheckFn()">중복확인</button><br>
 	
-	<input id="submit" type="submit" value="회원가입완료"> &nbsp; <input type="reset" value="가입취소" onclick="history.back()">
+	<input id="btn_submit" type="submit" value="회원가입완료"> &nbsp; <input type="reset" value="가입취소" onclick="history.back()">
 
 
 </form>
@@ -37,6 +36,11 @@
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript">
+	
+	let button_submit =  document.getElementById('button');
+		
+	button_submit.disabled = true;
+
 	function findAddr() {
 		new daum.Postcode({
 			
@@ -58,11 +62,17 @@
 			success : function(result) {
 				if (result == 1) {
 					alert("이미 사용중인 이메일입니다.");
-					 $("#submit").attr('disabled','disabled'); 
+					 $("#btn_submit").attr('disabled', 'disabled'); 
 				
+				}
+				
+				if(result == -1){
+					alert("이메일을 입력해주세요");
+					 $("#btn_submit").attr('disabled', 'disabled'); 
+					
 				} else {
 					alert("사용 가능한 이메일입니다.");
-					$("#submit").removeAttr('disabled');
+					$("#btn_submit").removeAttr('disabled');
 					
 				}
 			}
@@ -87,11 +97,17 @@
 			success : function(result) {
 				if (result == 1) {
 					alert("이미 사용중인 닉네임입니다.");
-					 $("#submit").attr('disabled','disabled'); 
+					 $("#btn_submit").attr('disabled', 'disabled'); 
 				
+				}
+				
+				if(result == -1){
+					alert("닉네임을 입력해주세요");
+					 $("#btn_submit").attr('disabled', 'disabled'); 
+					
 				} else {
 					alert("사용 가능한 닉네임입니다.");
-					$("#submit").removeAttr('disabled');
+					$("#btn_submit").removeAttr('disabled');
 					
 				}
 			}
@@ -107,14 +123,7 @@
 	function idCheckFn() {
 
 		let userId  = {userId: $("#userId").val()};
-		
-		
-		/*  if ($("addForm #userIdCheck").val()=='N') {
-			alert("중복된 아이디입니다");
-			$("#addForm #userId").focus();
-			return;
-		} */
-		 
+	
 		
 		$.ajax({
 			url : '/user/userIdcheck',
@@ -123,9 +132,17 @@
 			success : function(result) {
 				if (result == 1) {
 					alert("이미 사용중인 아이디입니다.");
+					 $("#btn_submit").attr('disabled', 'disabled'); 
 				
+				}
+				
+				if(result == -1){
+					alert("아이디를 입력해주세요");
+					 $("#btn_submit").attr('disabled', 'disabled'); 
+					
 				} else {
 					alert("사용 가능한 아이디입니다.");
+					$("#btn_submit").removeAttr('disabled');
 					
 				}
 			}

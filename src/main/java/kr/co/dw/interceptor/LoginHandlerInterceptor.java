@@ -12,10 +12,10 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import kr.co.dw.domain.UserDTO;
 
 public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		// TODO Auto-generated method stub
 	
 		return true;
 	}
@@ -31,6 +31,7 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 		HttpSession  session =	request.getSession();
 		
 		session.setAttribute("login", login);
+		
 
 	}
 	

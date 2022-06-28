@@ -4,9 +4,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.omg.CORBA.Request;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +35,38 @@ public class UserController {
 	@Inject
 	private AdminService aService;
 	
+
+	
+	@RequestMapping(value = "/user/findpwget", method = RequestMethod.GET)
+		public String findpw() {
+		
+		return "/user/findpwget";	
+	}
+	
+	
+	
+	
+	@RequestMapping(value = "/user/findid", method = RequestMethod.POST)
+	public String findid(UserDTO uDTO, Model model) {
+		UserDTO findId = uService.findid(uDTO);
+		
+		if (findId != null) {
+			model.addAttribute("findId", findId.getUserId());
+		}
+		
+		return "/user/resultid";
+	
+	}
+
+	
+	@RequestMapping(value = "/user/findidget", method = RequestMethod.GET)
+		public String findid() {
+		
+		
+		
+		return "/user/findid";
+	}
+	
 	
 
 	@RequestMapping(value = "/user/logout", method = RequestMethod.GET)
@@ -47,8 +84,9 @@ public class UserController {
 		UserDTO login = uService.login(uDTO);
 		model.addAttribute("login", login);
 		
+		System.out.println(login);
 		
-		return "redirect:/user/list";
+		return "redirect:/product/list";
 	}
 	
 	
@@ -58,7 +96,6 @@ public class UserController {
 		
 		return "/user/login";
 	}
-	
 	
 	
 	@RequestMapping(value = "/admin/delete/{adminId}", method = RequestMethod.POST)
@@ -215,6 +252,10 @@ public class UserController {
 			String uEmail = req.getParameter("uEmail");
 			int result = uService.checkEmail(uEmail);
 			
+			if (uEmail == "") {
+				result = -1;
+			}
+			
 		
 		
 		return result;
@@ -227,6 +268,11 @@ public class UserController {
 		public int checkNk(HttpServletRequest req) throws Exception{
 			String uNickname = req.getParameter("uNickname");
 			int result  = uService.checkNk(uNickname);
+			
+			if (uNickname == "") {
+				result = -1;
+			}
+			
 		
 			return result;
 	}
@@ -237,8 +283,13 @@ public class UserController {
 	@RequestMapping(value = "/user/userIdcheck", method = RequestMethod.POST)
 		public int checkId(HttpServletRequest req) throws Exception{
 			String userId = req.getParameter("userId");
+			
 			int result = uService.checkId(userId);
 		
+			if (userId == "") {
+				result = -1;
+			}
+			
 		
 		
 		return result;
@@ -247,8 +298,19 @@ public class UserController {
 	
 	
 	@RequestMapping(value = "/user/delete/{userId}", method = RequestMethod.POST)
-		public String delete(@PathVariable("userId") String userId) {
-			uService.delete(userId);
+		public String delete(@PathVariable("userId") String userId, Model model, HttpSession session) {
+		
+		
+		UserDTO login = (UserDTO) session.getAttribute("login");
+	      
+	      if (!login.getUserId().equals(userId)) {
+	         return "redirect:/proudct/list";
+	      }
+	      
+	      
+	      model.addAttribute("userId", userId);
+		
+		  uService.delete(userId);
 		
 		return "redirect:/user/list";
 	}
@@ -263,8 +325,15 @@ public class UserController {
 	
 	
 	@RequestMapping(value = "/user/update/{userId}", method = RequestMethod.GET)
-	public String update(@PathVariable("userId") String userId, Model model) {
+	public String update(@PathVariable("userId") String userId, Model model, HttpSession session) {
 	
+		UserDTO login = (UserDTO) session.getAttribute("login");
+	      
+	      if (!login.getUserId().equals(userId)) {
+	         return "redirect:/proudct/list";
+	      }
+	      	
+
 	UserDTO uDto = uService.updateUI(userId);
 	
 	model.addAttribute("uDto", uDto);
@@ -275,10 +344,18 @@ public class UserController {
 	
 	
 	@RequestMapping(value = "/user/read/{userId}", method = RequestMethod.GET)
-		public String read(@PathVariable("userId") String userId, Model model) {
+		public String read(@PathVariable("userId") String userId, Model model, HttpSession session) {
+		
+		
+		UserDTO login = (UserDTO) session.getAttribute("login");
+	      
+	      if (!login.getUserId().equals(userId)) {
+	         return "redirect:/proudct/list";
+	      }
+	      
 		
 		UserDTO uDto = uService.read(userId);
-		
+				
 		model.addAttribute("uDto", uDto);
 		
 		return "/user/read";
@@ -288,7 +365,8 @@ public class UserController {
 	
 	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
 		public String list(Model model) {
-			List<UserDTO> list = uService.list();
+		
+		List<UserDTO> list = uService.list();
 			
 			model.addAttribute("list", list);
 			

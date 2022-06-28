@@ -27,4 +27,6 @@ public class LogoutHandlerInterceptor extends HandlerInterceptorAdapter{
 		// TODO Auto-generated method stub
 		super.postHandle(request, response, handler, modelAndView);
 	}
+	
+	
 }
