@@ -13,6 +13,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -165,16 +166,15 @@ public class UserController {
 	
 	
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
-		public String login(UserDTO uDTO, Model model) {
-			
+	public void login(UserDTO uDTO, Model model, ServletRequest request) {
 		
-		UserDTO login = uService.login(uDTO);
-		model.addAttribute("login", login);
-		
-		System.out.println(login);
-		
-		return "redirect:/product/list";
-	}
+	
+	UserDTO login = uService.login(uDTO);
+	model.addAttribute("login", login);
+	model.addAttribute("LOGIN_ERR_MSG", "로그인 실패");
+
+}
+
 	
 	
 	@RequestMapping(value = "/user/loginget", method = RequestMethod.GET)

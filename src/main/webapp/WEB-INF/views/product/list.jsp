@@ -57,7 +57,7 @@ margin-left-right: -34%
    </style>
 </head>
 <body>
-<jsp:include page="../common/header.jsp"/>
+<jsp:include page="../header.jsp"/>
 
    <a href="/product/insert/">제품정보입력</a>
 
