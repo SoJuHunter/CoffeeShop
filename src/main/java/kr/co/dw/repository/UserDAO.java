@@ -27,5 +27,9 @@ public interface UserDAO {
 	UserDTO login(UserDTO uDTO);
 
 	UserDTO findid(UserDTO uDTO);
+	
+	UserDTO readUser(String userId);
+
+	void updatePw(UserDTO uDTO);
 
 }

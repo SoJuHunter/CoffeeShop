@@ -88,4 +88,19 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.selectOne(NAMESPACE+".findid", uDTO);
 	}
 
+	
+	@Override
+	public UserDTO readUser(String userId) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE + ".readUser", userId);
+	}
+
+	@Override
+	public void updatePw(UserDTO uDTO) {
+		// TODO Auto-generated method stub
+		
+		sqlSession.update(NAMESPACE+".updatePw", uDTO);
+		
+	}
+	
 }

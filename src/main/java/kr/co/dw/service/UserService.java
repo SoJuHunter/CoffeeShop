@@ -2,6 +2,8 @@ package kr.co.dw.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import kr.co.dw.domain.UserDTO;
 
 public interface UserService {
@@ -28,4 +30,7 @@ public interface UserService {
 
 	UserDTO findid(UserDTO uDTO);
 
+	void findPw(HttpServletResponse response, UserDTO uDTO) throws Exception;
+	
+	public void sendEmail(UserDTO uDTO, String div) throws Exception;
 }

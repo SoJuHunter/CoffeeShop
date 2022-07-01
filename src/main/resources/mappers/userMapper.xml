@@ -4,6 +4,31 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="kr.co.dw.user">
   
+	  <update id="modifyPw" >
+	UPDATE tbl_user SET uPassword = #{uPassword} WHERE userId = #{userId}
+	</update> 
+	  
+	
+	<select id="modifyPwUI" resultType="UserDTO">
+	
+			SELECT * FROM tbl_user WHERE userId = #{userId}
+	
+	</select>
+	  
+	  
+	   <select id="readUser" resultType="UserDTO">
+	
+			SELECT * FROM tbl_user WHERE userId = #{userId} AND uEmail = #{uEmail}
+	
+	</select>
+	  
+	  
+	  <update id="updatePw" >
+	UPDATE tbl_user SET uPassword = #{uPassword} WHERE userId = #{userId}
+	</update> 
+  
+  
+  
 	<select id="findid" resultType="UserDTO">
 	  
 	    	SELECT * FROM tbl_user WHERE uName = #{uName} AND uEmail = #{uEmail}

@@ -1,8 +1,18 @@
 package kr.co.dw.controller;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import javax.inject.Inject;
+import javax.mail.Address;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,11 +22,13 @@ import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.co.dw.controller.UserController.UserAuthentication;
 import kr.co.dw.domain.AdminDTO;
 import kr.co.dw.domain.BossDTO;
 import kr.co.dw.domain.UserDTO;
@@ -36,36 +48,111 @@ public class UserController {
 	private AdminService aService;
 	
 
-	
-	@RequestMapping(value = "/user/findpwget", method = RequestMethod.GET)
-		public String findpw() {
+	//비밀번호 인증용 외부 클래스
+		 public class UserAuthentication extends Authenticator{
+		      private PasswordAuthentication pwa;
+		      
+		      public UserAuthentication(String id, String pw) {
+		         pwa = new PasswordAuthentication(id, pw);
+		      }
+		      
+		      @Override
+		      public PasswordAuthentication getPasswordAuthentication() {
+		         // TODO Auto-generated method stub
+		         return pwa;
+		      }
+		      
+		   }
 		
-		return "/user/findpwget";	
-	}
-	
-	
-	
-	
-	@RequestMapping(value = "/user/findid", method = RequestMethod.POST)
-	public String findid(UserDTO uDTO, Model model) {
-		UserDTO findId = uService.findid(uDTO);
 		
-		if (findId != null) {
-			model.addAttribute("findId", findId.getUserId());
+		@RequestMapping(value = "/user/sendMail", method = RequestMethod.POST)
+			public void send(String from, String to, 
+					String title, String content, String pw) {
+			
+			Properties props = System.getProperties();
+			props.put("mail.smtp.starttls.enable", "true");
+			props.put("mail.smtp.host", "smtp.naver.com");
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.port", "587");
+			
+			Authenticator auth = new UserAuthentication(from, pw);
+			
+			Session session = Session.getDefaultInstance(props, auth);
+			
+			
+			//실제로 메일을 전달할 수 있는 객체 만들기
+			MimeMessage mMsg = new MimeMessage(session);
+			
+			try {
+				mMsg.setSentDate(new Date());
+				
+				InternetAddress fromId = new InternetAddress(from);
+				mMsg.setFrom(fromId);
+				
+				
+				InternetAddress toId = new InternetAddress(to);
+				Address[] arr = {toId};
+			
+				mMsg.setRecipients(Message.RecipientType.TO,arr);//setTo가 없다
+				mMsg.setSubject(title, "UTF-8");
+				mMsg.setText(content, "UTF-8");
+				mMsg.setHeader("content-Type", "text/html");
+				
+				Transport.send(mMsg, mMsg.getAllRecipients());
+				
+				
+				
+				
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			
+			
 		}
 		
-		return "/user/resultid";
-	
-	}
+		
+	    @RequestMapping(value = "/user/sendMail", method = RequestMethod.GET)
+	    public void sendMail() {
+	       
+	    }
+		
+		@RequestMapping(value = "/user/findpw", method = RequestMethod.GET)
+		public void findPwGET() throws Exception{
+		}
 
-	
-	@RequestMapping(value = "/user/findidget", method = RequestMethod.GET)
-		public String findid() {
+		
+		
+		@RequestMapping(value = "/user/findpw", method = RequestMethod.POST)
+		public void findPwPOST(@ModelAttribute UserDTO uDTO, HttpServletResponse response) throws Exception{
+			uService.findPw(response, uDTO);
+		}
 		
 		
 		
-		return "/user/findid";
-	}
+		
+		@RequestMapping(value = "/user/findid", method = RequestMethod.POST)
+		public String findid(UserDTO uDTO, Model model) {
+			UserDTO findId = uService.findid(uDTO);
+			
+			if (findId != null) {
+				model.addAttribute("findId", findId.getUserId());
+			}
+			
+			return "/user/resultid";
+		
+		}
+
+		
+		@RequestMapping(value = "/user/findidget", method = RequestMethod.GET)
+			public String findid() {
+			
+			
+			
+			return "/user/findid";
+		}
+		
 	
 	
 
