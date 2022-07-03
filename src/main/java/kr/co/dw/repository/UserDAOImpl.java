@@ -1,11 +1,17 @@
 package kr.co.dw.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.co.dw.domain.PageTO;
 import kr.co.dw.domain.UserDTO;
 
 @Repository
@@ -75,7 +81,6 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.selectOne(NAMESPACE+".checkEmail", uEmail);
 	}
 
-
 	@Override
 	public UserDTO login(UserDTO uDTO) {
 		// TODO Auto-generated method stub
@@ -88,7 +93,6 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.selectOne(NAMESPACE+".findid", uDTO);
 	}
 
-	
 	@Override
 	public UserDTO readUser(String userId) {
 		// TODO Auto-generated method stub
@@ -102,5 +106,58 @@ public class UserDAOImpl implements UserDAO {
 		sqlSession.update(NAMESPACE+".updatePw", uDTO);
 		
 	}
+
+
+	@Override
+	public Integer getAmountUser() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".getAmountUser");
+	}
+
+	@Override
+	public List<UserDTO> list(PageTO<UserDTO> pt) {
+		// TODO Auto-generated method stub
+		RowBounds rb = new RowBounds(pt.getStartNum()-1, pt.getPerPage());
+		
+		return sqlSession.selectList(NAMESPACE+".list", null, rb);
+	}
 	
+	@Override
+	public List<UserDTO> search(PageTO<UserDTO> pt, String criteria, String keyword) {
+		// TODO Auto-generated method stub
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("criteria", criteria);
+		map.put("keyword", keyword);
+		
+		
+		RowBounds rb = new RowBounds(pt.getStartNum()-1, pt.getPerPage());
+		
+		return sqlSession.selectList(NAMESPACE+".search", map, rb);
+		
+		
+	}
+	
+	
+	@Override
+	public Integer getAmountSearch(String criteria, String keyword) {
+		// TODO Auto-generated method stub
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("criteria", criteria);
+		map.put("keyword", keyword);
+		
+		
+		return sqlSession.selectOne(NAMESPACE+".getAmountSearch", map);
+	}
+
+	@Override
+	public void modifyPw(UserDTO uDto) {
+		// TODO Auto-generated method stub
+		
+		sqlSession.update(NAMESPACE+".modifyPw", uDto);
+		
+	}
+
+
+
+
 }

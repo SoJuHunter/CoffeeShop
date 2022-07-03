@@ -2,13 +2,17 @@ package kr.co.dw.service;
 
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.mail.HtmlEmail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import kr.co.dw.domain.PageTO;
 import kr.co.dw.domain.UserDTO;
 import kr.co.dw.repository.UserDAO;
 
@@ -20,7 +24,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void insert(UserDTO uDto) {
 		// TODO Auto-generated method stub
-		uDAO.insert(uDto);		
+		uDAO.insert(uDto);
 	}
 
 	@Override
@@ -44,7 +48,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void update(UserDTO uDto) {
 		// TODO Auto-generated method stub
-		
+
 		uDAO.update(uDto);
 	}
 
@@ -52,7 +56,7 @@ public class UserServiceImpl implements UserService {
 	public void delete(String userId) {
 		// TODO Auto-generated method stub
 		uDAO.delete(userId);
-		
+
 	}
 
 	@Override
@@ -73,7 +77,6 @@ public class UserServiceImpl implements UserService {
 		return uDAO.checkEmail(uEmail);
 	}
 
-
 	@Override
 	public UserDTO login(UserDTO uDTO) {
 		// TODO Auto-generated method stub
@@ -85,7 +88,7 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return uDAO.findid(uDTO);
 	}
-	
+
 	@Override
 	public void findPw(HttpServletResponse response, UserDTO uDTO) throws Exception{
 		// TODO Auto-generated method stub
@@ -168,5 +171,44 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public PageTO<UserDTO> list(Integer curpage) {
+		// TODO Auto-generated method stub
+		PageTO<UserDTO> pt = new PageTO<UserDTO>(curpage);
+		
+		Integer amount = uDAO.getAmountUser();
+		pt.setAmount(amount);
+		
+		List<UserDTO> list = uDAO.list(pt);
+		pt.setList(list);
+		
+		return pt;
+	}
+
+	@Override
+	public PageTO<UserDTO> search(Integer curpage, String criteria, String keyword) {
+		// TODO Auto-generated method stub
+		PageTO<UserDTO> pt = new PageTO<UserDTO>(curpage);
+		
+		Integer amount = uDAO.getAmountSearch(criteria, keyword);
+		if(amount==null) {
+			amount = 0;
+		}
+		
+		pt.setAmount(amount);
+		
+		List<UserDTO> list = uDAO.search(pt, criteria, keyword);
+		pt.setList(list);
+	
+		
+		return pt;
+	}
+
+	@Override
+	public void modifyPw(UserDTO uDto) {
+		// TODO Auto-generated method stub
+		uDAO.modifyPw(uDto);
+	}
+	
 
 }

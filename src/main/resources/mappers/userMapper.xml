@@ -2,102 +2,151 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="kr.co.dw.user">
-  
-	  <update id="modifyPw" >
-	UPDATE tbl_user SET uPassword = #{uPassword} WHERE userId = #{userId}
-	</update> 
-	  
-	
-	<select id="modifyPwUI" resultType="UserDTO">
-	
-			SELECT * FROM tbl_user WHERE userId = #{userId}
-	
-	</select>
-	  
-	  
-	   <select id="readUser" resultType="UserDTO">
-	
-			SELECT * FROM tbl_user WHERE userId = #{userId} AND uEmail = #{uEmail}
-	
-	</select>
-	  
-	  
-	  <update id="updatePw" >
-	UPDATE tbl_user SET uPassword = #{uPassword} WHERE userId = #{userId}
-	</update> 
-  
-  
-  
-	<select id="findid" resultType="UserDTO">
-	  
-	    	SELECT * FROM tbl_user WHERE uName = #{uName} AND uEmail = #{uEmail}
-	  
-	  </select>
-	  
-	  
-	  
-	   <select id="login" resultType="UserDTO">
-	  
-	  	 	SELECT * FROM tbl_user WHERE userId = #{userId} AND uPassword = #{uPassword}
-	  
-	  </select>
-	 <select id="checkEmail" resultType="int">
-		SELECT COUNT(*) from tbl_user WHERE uEmail = #{uEmail}
-	</select> 
-	  
-	  
-	
-	<select id="checkNk" resultType="int">
-		SELECT COUNT(*) from tbl_user WHERE uNickname = #{uNickname}
-	</select>
-	
-	
-	<select id="checkId" resultType="int">
-		SELECT COUNT(*) from tbl_user WHERE userId = #{userId}
-	</select>
-	
-	
-		<delete id="delete">
-		  	DELETE FROM tbl_user WHERE userId = #{userId}
-		</delete>
-	
-	
-	
-	<update id="update">
-	
-		UPDATE tbl_user SET 
-		uName = #{uName}, uNickname = #{uNickname}, 
-		uPostnumber = #{uPostnumber}, uAddress = #{uAddress}, udetailAddress = #{udetailAddress},
-		uPhone = #{uPhone}, uEmail = #{uEmail}
-		WHERE userId = #{userId} AND uPassword = #{uPassword}
-	
+<mapper namespace="kr.co.dw.user">
+
+	<update id="modifyPw">
+
+		UPDATE tbl_user SET uPassword = #{uPassword} WHERE
+		userId = #{userId}
+
 	</update>
-	
-	
-	
+
+	<sql id="sql_where_part">
+		<if test="criteria != null">
+			<if test="criteria == 'userId'.toString()">
+				WHERE UPPER(userId) LIKE '%'||UPPER(#{keyword})||'%'
+			</if>
+
+			<if test="criteria == 'uNickname'.toString()">
+				WHERE UPPER(uNickname) LIKE '%'||UPPER(#{keyword})||'%'
+			</if>
+
+			<if test="criteria == 'uGrade'.toString()">
+				WHERE LOWER(uGrade) LIKE '%'||LOWER(#{keyword})||'%'
+			</if>
+		</if>
+	</sql>
+
+
+	<select id="search" resultType="UserDTO">
+		SELECT * FROM tbl_user
+		<include refid="sql_where_part"></include>
+		ORDER BY userId DESC
+	</select>
+
+	<select id="getAmountSearch" resultType="integer">
+		SELECT COUNT(userId) FROM tbl_user
+		<include refid="sql_where_part"></include>
+	</select>
+
+
+
+
+	<select id="getAmountUser" resultType="integer">
+		SELECT COUNT(userId) FROM
+		tbl_user
+	</select>
+
+
+	<select id="readUser" resultType="UserDTO">
+
+		SELECT * FROM tbl_user WHERE
+		userId = #{userId} AND uEmail = #{uEmail}
+
+	</select>
+
+
+	<update id="updatePw">
+		UPDATE tbl_user SET uPassword = #{uPassword} WHERE
+		userId = #{userId}
+	</update>
+
+
+
+	<select id="findid" resultType="UserDTO">
+
+		SELECT * FROM tbl_user WHERE
+		uName = #{uName} AND uEmail = #{uEmail}
+
+	</select>
+
+
+	<select id="login" resultType="UserDTO">
+
+		SELECT * FROM tbl_user WHERE
+		userId = #{userId} AND uPassword = #{uPassword}
+
+	</select>
+
+	<select id="checkEmail" resultType="int">
+		SELECT COUNT(*) from tbl_user
+		WHERE uEmail = #{uEmail}
+	</select>
+
+
+
+	<select id="checkNk" resultType="int">
+		SELECT COUNT(*) from tbl_user
+		WHERE uNickname = #{uNickname}
+	</select>
+
+
+	<select id="checkId" resultType="int">
+		SELECT COUNT(*) from tbl_user
+		WHERE userId = #{userId}
+	</select>
+
+
+	<delete id="delete">
+		DELETE FROM tbl_user WHERE userId = #{userId}
+	</delete>
+
+
+
+<update id="update">
+
+	UPDATE tbl_user SET 
+	uName = #{uName}, uNickname = #{uNickname},
+	uPostnumber = #{uPostnumber}, uAddress = #{uAddress}, udetailAddress = #{udetailAddress},
+	uPhone = #{uPhone}, uEmail = #{uEmail}
+	WHERE userId = #{userId}
+
+</update>
+
+
+
+
+
 	<select id="updateUI" resultType="UserDTO">
-	
-			SELECT * FROM tbl_user WHERE userId = #{userId}
-	
+
+		SELECT * FROM tbl_user WHERE
+		userId = #{userId}
+
 	</select>
-	
-	
+
+
 	<select id="read" resultType="UserDTO">
-	
-			SELECT * FROM tbl_user WHERE userId = #{userId}
-	
+
+		SELECT * FROM tbl_user WHERE userId
+		= #{userId}
+
 	</select>
-	
-	  <insert id="insert">
-	  	INSERT INTO tbl_user(userId, uName, uNickname, uPassword, uBirth, uPostnumber, uAddress, udetailAddress, uPhone, uEmail) 
-	  	VALUES(#{userId}, #{uName}, #{uNickname}, #{uPassword}, #{uBirth}, #{uPostnumber}, #{uAddress}, #{udetailAddress}, #{uPhone}, #{uEmail})
-	  </insert>  
-	  
-	
-	<select id="list" resultType="UserDTO">		
-		SELECT * FROM tbl_user ORDER BY uSigndate ASC
-	</select> 
-  
-  
+
+	<insert id="insert">
+		INSERT INTO tbl_user(userId, uName, uNickname,
+		uPassword, uBirth,
+		uPostnumber, uAddress, udetailAddress, uPhone,
+		uEmail)
+		VALUES(#{userId}, #{uName}, #{uNickname}, #{uPassword},
+		#{uBirth},
+		#{uPostnumber}, #{uAddress}, #{udetailAddress}, #{uPhone},
+		#{uEmail})
+	</insert>
+
+	<select id="list" resultType="UserDTO">
+		SELECT * FROM tbl_user ORDER BY
+		uSigndate ASC
+	</select>
+
+
 </mapper>

@@ -2,6 +2,9 @@ package kr.co.dw.repository;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
+import kr.co.dw.domain.PageTO;
 import kr.co.dw.domain.UserDTO;
 
 public interface UserDAO {
@@ -27,9 +30,20 @@ public interface UserDAO {
 	UserDTO login(UserDTO uDTO);
 
 	UserDTO findid(UserDTO uDTO);
-	
+
 	UserDTO readUser(String userId);
 
 	void updatePw(UserDTO uDTO);
+
+	Integer getAmountUser();
+
+	List<UserDTO> list(PageTO<UserDTO> pt);
+	
+	List<UserDTO> search(PageTO<UserDTO> pt, String criteria, String keyword);
+
+	Integer getAmountSearch(String criteria, String keyword);
+
+	void modifyPw(UserDTO uDto);
+
 
 }
