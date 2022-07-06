@@ -53,6 +53,30 @@ public class UserController {
 	@Inject
 	private AdminService aService;
 
+	
+	@RequestMapping(value = "/admin/logout", method = RequestMethod.GET)
+	public String adminlogout() {
+
+		return "redirect:/admin/loginget";
+	}
+
+	@RequestMapping(value = "/admin/login", method = RequestMethod.POST)
+	public void login(AdminDTO aDTO, Model model) {
+
+		AdminDTO adminLogin = aService.login(aDTO);
+		model.addAttribute("adminLogin", adminLogin);
+		model.addAttribute("adminLOGIN_ERR_MSG", "로그인 실패");
+		
+		System.out.println("@@@@@@@@@@@@@@@@"+adminLogin);
+
+	}
+
+	@RequestMapping(value = "/admin/loginget", method = RequestMethod.GET)
+	public String adminlogin() {
+
+		return "/admin/login";
+	}
+
 
 	@RequestMapping(value = "/user/search", method = RequestMethod.GET)
 	public void search(Integer curpage, String criteria, String keyword, Model model) {

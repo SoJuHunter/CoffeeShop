@@ -102,25 +102,25 @@ ul {
 			<div class="card-title" style="margin-top: 30px;">
 
 				<h3 class="card-title" style="color: #555555;" align="left">
-					&nbsp;&nbsp;&nbsp;회원 로그인</h3>
+					&nbsp;&nbsp;&nbsp;관리자 로그인</h3>
 			</div>
-			<form action="/user/login" method="post">
+			<form action="/admin/login" method="post">
 				<div class="checkbox">
-					<label> 
-					<input type="radio" name="mode" value="admin" onclick="window.location.href='/admin/loginget'">
+					<label> <input type="radio" name="mode" value="admin" checked>
 						관리자 &nbsp;&nbsp; 
-						<input type="radio" name="mode" value="member" checked> 일반회원
+						<input type="radio" name="mode" value="member" onclick="window.location.href='/user/loginget'"> 
+						일반회원
 					</label>
 				</div>
 
 				<div class="card-body">
 
-					<input type="text" name="userId" id="userId" class="form-control"
-						value="${LOGIN_COOKIE.getId.value}" placeholder="아이디" autofocus
-						required><BR> <input type="password" name="uPassword"
-						id="uPassword" class="form-control" placeholder="비밀번호" required><br>
+					<input type="text" name="adminId" id="adminId" class="form-control"
+						value="${LOGIN_COOKIE.getId.value}" placeholder="관리자 아이디" autofocus
+						required><BR> <input type="password" name="aPassword"
+						id="aPassword" class="form-control" placeholder="관리자 비밀번호" required><br>
 					<input id="btn-Yes" class="btn btn-lg btn-primary btn-block"
-						type="submit" value="로 그 인"> <br> <label
+						type="submit" value="관 리 자 로 그 인"> <br> <label
 						for="useCookie"> <input type="checkbox" id="useCookie"
 						name="useCookie" value="true"> 로그인유지
 					</label>
@@ -129,7 +129,7 @@ ul {
 		</div>
 		<div class="links">
 			<a href="/user/findidget">아이디 찾기</a> | <a href="/user/findpw">비밀번호
-				찾기</a> | <a href="/user/insert">회원가입</a>
+				찾기</a> | <a href="/admin/insert">회원가입</a>
 
 		</div>
 
@@ -178,9 +178,9 @@ ul {
 		charset="utf-8"></script>
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<script type="text/javascript">
-			let LOGIN_ERR_MSG = "${LOGIN_ERR_MSG}";
-			if (LOGIN_ERR_MSG != "") {
-				alert(LOGIN_ERR_MSG);
+			let adminLOGIN_ERR_MSG = "${adminLOGIN_ERR_MSG}";
+			if (adminLOGIN_ERR_MSG != "") {
+				alert(adminLOGIN_ERR_MSG);
 			}
 
 			Kakao.init('64404b4a1ac50344b8f24447db65f027');

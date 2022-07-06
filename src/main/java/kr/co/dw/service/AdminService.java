@@ -18,4 +18,6 @@ public interface AdminService {
 
 	void update(AdminDTO aDto);
 
+	AdminDTO login(AdminDTO aDTO);
+
 }

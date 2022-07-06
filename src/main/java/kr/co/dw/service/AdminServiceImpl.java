@@ -52,5 +52,11 @@ public class AdminServiceImpl implements AdminService {
 		aDao.update(aDto);
 		
 	}
+
+	@Override
+	public AdminDTO login(AdminDTO aDTO) {
+		// TODO Auto-generated method stub
+		return aDao.login(aDTO);
+	}
 	
 }

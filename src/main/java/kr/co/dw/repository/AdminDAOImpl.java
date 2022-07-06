@@ -54,4 +54,10 @@ public class AdminDAOImpl implements AdminDAO {
 		sqlSession.update(NAMESPACE+".update", aDto);
 		
 	}
+
+	@Override
+	public AdminDTO login(AdminDTO aDTO) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".login", aDTO);
+	}
 }

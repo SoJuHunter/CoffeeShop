@@ -18,4 +18,6 @@ public interface AdminDAO {
 
 	void update(AdminDTO aDto);
 
+	AdminDTO login(AdminDTO aDTO);
+
 }
