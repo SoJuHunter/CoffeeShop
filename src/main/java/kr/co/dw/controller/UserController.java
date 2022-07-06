@@ -1,5 +1,8 @@
 package kr.co.dw.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -12,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +36,7 @@ import kr.co.dw.domain.UserDTO;
 import kr.co.dw.service.AdminService;
 import kr.co.dw.service.BossService;
 import kr.co.dw.service.UserService;
+import kr.co.dw.utils.AES256Util;
 
 import javax.mail.Address;
 import javax.mail.Authenticator;
@@ -53,6 +58,9 @@ public class UserController {
 	@Inject
 	private AdminService aService;
 
+	
+	@Autowired
+	AES256Util aes;
 	
 	@RequestMapping(value = "/admin/logout", method = RequestMethod.GET)
 	public String adminlogout() {
@@ -186,13 +194,33 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
-	public void login(UserDTO uDTO, Model model) {
+	public void login (@RequestParam("userId") String userId, @RequestParam("uPassword") String uPassword, UserDTO uDTO, Model model)throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException
+	 {
 
 		UserDTO login = uService.login(uDTO);
-		model.addAttribute("login", login);
+		
+		
+		
+		userId = aes.encrypt(userId);
+		uPassword = aes.encrypt(uPassword);
+        
+        System.out.println("-----------------------------");
+        System.out.println("암호화 후 아이디 : " + userId);
+        System.out.println("암호화 후 비밀번호 : " + uPassword);
+        
+        System.out.println("-----------------------------");
+        System.out.println("복호화 후 아이디 : " + aes.decrypt(userId));
+        System.out.println("복호화 후 비밀번호 : " + aes.decrypt(uPassword));
+
+		
+        model.addAttribute("userId", userId);        
+        model.addAttribute("uPassword", uPassword);
+        model.addAttribute("login", login);
 		model.addAttribute("LOGIN_ERR_MSG", "로그인 실패");
+		
 
 	}
+
 
 	@RequestMapping(value = "/user/loginget", method = RequestMethod.GET)
 	public String login() {
