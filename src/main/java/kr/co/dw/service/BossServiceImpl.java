@@ -51,4 +51,10 @@ public class BossServiceImpl implements BossService {
 			// TODO Auto-generated method stub
 			bDAO.delete(bossId);
 		}
+
+		@Override
+		public BossDTO login(BossDTO bDTO) {
+			// TODO Auto-generated method stub
+			return bDAO.login(bDTO);
+		}
 }

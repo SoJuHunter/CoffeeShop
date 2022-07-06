@@ -4,6 +4,13 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="kr.co.dw.boss">
   
+  	<select id="login" resultType="BossDTO">
+
+		SELECT * FROM tbl_boss WHERE
+		adminId = #{adminId} AND aPassword = #{aPassword}
+
+	</select>
+  
   
   	<delete id="delete">
   	

@@ -18,4 +18,6 @@ public interface BossDAO {
 
 	void delete(String bossId);
 
+	BossDTO login(BossDTO bDTO);
+
 }

@@ -37,6 +37,7 @@ import kr.co.dw.service.AdminService;
 import kr.co.dw.service.BossService;
 import kr.co.dw.service.UserService;
 import kr.co.dw.utils.AES256Util;
+import kr.co.dw.utils.SHA256Util;
 
 import javax.mail.Address;
 import javax.mail.Authenticator;
@@ -49,6 +50,8 @@ import javax.mail.internet.MimeMessage;
 
 @Controller
 public class UserController {
+
+
 	@Inject
 	private UserService uService;
 
@@ -57,48 +60,10 @@ public class UserController {
 
 	@Inject
 	private AdminService aService;
+	
 
 	
-	@Autowired
-	AES256Util aes;
-	
-	@RequestMapping(value = "/admin/logout", method = RequestMethod.GET)
-	public String adminlogout() {
 
-		return "redirect:/admin/loginget";
-	}
-
-	@RequestMapping(value = "/admin/login", method = RequestMethod.POST)
-	public void login(AdminDTO aDTO, Model model) {
-
-		AdminDTO adminLogin = aService.login(aDTO);
-		model.addAttribute("adminLogin", adminLogin);
-		model.addAttribute("adminLOGIN_ERR_MSG", "로그인 실패");
-		
-		System.out.println("@@@@@@@@@@@@@@@@"+adminLogin);
-
-	}
-
-	@RequestMapping(value = "/admin/loginget", method = RequestMethod.GET)
-	public String adminlogin() {
-
-		return "/admin/login";
-	}
-
-
-	@RequestMapping(value = "/user/search", method = RequestMethod.GET)
-	public void search(Integer curpage, String criteria, String keyword, Model model) {
-		if (curpage == null) {
-			curpage = 1;
-		}
-
-		PageTO<UserDTO> pt = uService.search(curpage, criteria, keyword);
-		model.addAttribute("list", pt.getList());
-		model.addAttribute("pt", pt);
-		model.addAttribute("criteria", criteria);
-		model.addAttribute("keyword", keyword);
-
-	}
 
 	// 비밀번호 인증용 외부 클래스
 	public class UserAuthentication extends Authenticator {
@@ -160,72 +125,31 @@ public class UserController {
 
 	}
 
-	@RequestMapping(value = "/user/findpw", method = RequestMethod.GET)
-	public void findPwGET() throws Exception {
+	
+	
+	
+	
+	@RequestMapping(value = "/admin/logout", method = RequestMethod.GET)
+	public String adminlogout() {
+
+		return "redirect:/admin/loginget";
 	}
 
-	@RequestMapping(value = "/user/findpw", method = RequestMethod.POST)
-	public void findPwPOST(@ModelAttribute UserDTO uDTO, HttpServletResponse response) throws Exception {
-		uService.findPw(response, uDTO);
-	}
+	@RequestMapping(value = "/admin/login", method = RequestMethod.POST)
+	public void login(AdminDTO aDTO, Model model) {
 
-	@RequestMapping(value = "/user/findid", method = RequestMethod.POST)
-	public String findid(UserDTO uDTO, Model model) {
-		UserDTO findId = uService.findid(uDTO);
-
-		if (findId != null) {
-			model.addAttribute("findId", findId.getUserId());
-		}
-
-		return "/user/resultid";
-
-	}
-
-	@RequestMapping(value = "/user/findidget", method = RequestMethod.GET)
-	public String findid() {
-
-		return "/user/findid";
-	}
-
-	@RequestMapping(value = "/user/logout", method = RequestMethod.GET)
-	public String logout() {
-
-		return "redirect:/user/loginget";
-	}
-
-	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
-	public void login (@RequestParam("userId") String userId, @RequestParam("uPassword") String uPassword, UserDTO uDTO, Model model)throws NoSuchAlgorithmException, UnsupportedEncodingException, GeneralSecurityException
-	 {
-
-		UserDTO login = uService.login(uDTO);
+		AdminDTO adminLogin = aService.login(aDTO);
+		model.addAttribute("adminLogin", adminLogin);
+		model.addAttribute("adminLOGIN_ERR_MSG", "로그인 실패");
 		
-		
-		
-		userId = aes.encrypt(userId);
-		uPassword = aes.encrypt(uPassword);
-        
-        System.out.println("-----------------------------");
-        System.out.println("암호화 후 아이디 : " + userId);
-        System.out.println("암호화 후 비밀번호 : " + uPassword);
-        
-        System.out.println("-----------------------------");
-        System.out.println("복호화 후 아이디 : " + aes.decrypt(userId));
-        System.out.println("복호화 후 비밀번호 : " + aes.decrypt(uPassword));
-
-		
-        model.addAttribute("userId", userId);        
-        model.addAttribute("uPassword", uPassword);
-        model.addAttribute("login", login);
-		model.addAttribute("LOGIN_ERR_MSG", "로그인 실패");
-		
+		System.out.println("@@@@@@@@@@@@@@@@"+adminLogin);
 
 	}
 
+	@RequestMapping(value = "/admin/loginget", method = RequestMethod.GET)
+	public String adminlogin() {
 
-	@RequestMapping(value = "/user/loginget", method = RequestMethod.GET)
-	public String login() {
-
-		return "/user/login";
+		return "/admin/login";
 	}
 
 	@RequestMapping(value = "/admin/delete/{adminId}", method = RequestMethod.POST)
@@ -285,6 +209,39 @@ public class UserController {
 		return "/admin/insert";
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/boss/logout", method = RequestMethod.GET)
+	public String bosslogout() {
+
+		return "redirect:/boss/loginget";
+	}
+
+	@RequestMapping(value = "/boss/login", method = RequestMethod.POST)
+	public void bosslogin(BossDTO bDTO, Model model) {
+
+		BossDTO bossLogin = bService.login(bDTO);
+		model.addAttribute("bossLogin", bossLogin);
+		model.addAttribute("bossLOGIN_ERR_MSG", "로그인 실패");
+
+	}
+
+	@RequestMapping(value = "/boss/loginget", method = RequestMethod.GET)
+	public String bossLogin() {
+
+		return "/boss/login";
+	}
+	
+	
+	
 	@RequestMapping(value = "/boss/delete/{bossId}", method = RequestMethod.POST)
 	public String bossDelete(@PathVariable("bossId") String bossId) {
 		bService.delete(bossId);
@@ -342,6 +299,44 @@ public class UserController {
 		return "/boss/insert";
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/user/findpw", method = RequestMethod.GET)
+	public void findPwGET() throws Exception {
+	}
+
+	@RequestMapping(value = "/user/findpw", method = RequestMethod.POST)
+	public void findPwPOST(@ModelAttribute UserDTO uDTO, HttpServletResponse response) throws Exception {
+		uService.findPw(response, uDTO);
+	}
+
+	@RequestMapping(value = "/user/findid", method = RequestMethod.POST)
+	public String findid(UserDTO uDTO, Model model) {
+		UserDTO findId = uService.findid(uDTO);
+
+		if (findId != null) {
+			model.addAttribute("findId", findId.getUserId());
+		}
+
+		return "/user/resultid";
+
+	}
+
+	@RequestMapping(value = "/user/findidget", method = RequestMethod.GET)
+	public String findid() {
+
+		return "/user/findid";
+	}
+
+
+	
+	
 	@ResponseBody
 	@RequestMapping(value = "/user/emailCheck", method = RequestMethod.POST)
 	public int checkEmail(HttpServletRequest req) throws Exception {
@@ -383,28 +378,32 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/delete/{userId}", method = RequestMethod.POST)
-	public String delete(@PathVariable("userId") String userId, Model model, HttpSession session) {
+	   public String delete(@PathVariable("userId") String userId, Model model, HttpSession session) {
 
-		UserDTO login = (UserDTO) session.getAttribute("login");
+	      /*
+	       * UserDTO login = (UserDTO) session.getAttribute("login");
+	       * 
+	       * if (!login.getUserId().equals(userId)) { return "redirect:/"; }
+	       */
+	      model.addAttribute("userId", userId);
 
-		if (!login.getUserId().equals(userId)) {
-			return "redirect:/";
-		}
+	      uService.delete(userId);
 
-		model.addAttribute("userId", userId);
-
-		uService.delete(userId);
-
-		return "redirect:/";
-	}
+	      return "redirect:/user/logout";
+	   }
+	   
 	
 	
 	@RequestMapping(value = "/user/modifyPw", method = RequestMethod.POST)
 	public String modifyPw(UserDTO uDto) {
 		
+		String encryPassword =	SHA256Util.encrypt(uDto.getuPassword());
+		uDto.setuPassword(encryPassword);
+		
+		
 		uService.modifyPw(uDto);
 
-		return "redirect:/";
+		return "redirect:/user/logout";
 	}
 
 	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
@@ -419,9 +418,12 @@ public class UserController {
 	public String update(@PathVariable("userId") String userId, Model model, HttpSession session) {
 
 		UserDTO login = (UserDTO) session.getAttribute("login");
-
+		AdminDTO adminLogin = (AdminDTO)session.getAttribute("adminLogin");
+		
 		if (!login.getUserId().equals(userId)) {
-			return "redirect:/";
+			if (!adminLogin.getAdminId().equals(adminLogin.getAdminId())) {
+				return "redirect:/";
+			}
 		}
 
 		UserDTO uDto = uService.updateUI(userId);
@@ -430,15 +432,22 @@ public class UserController {
 
 		return "/user/update";
 	}
+	
 
 	@RequestMapping(value = "/user/read/{userId}", method = RequestMethod.GET)
 	public String read(@PathVariable("userId") String userId, Model model, HttpSession session) {
 
 		UserDTO login = (UserDTO) session.getAttribute("login");
-
+		
+		
+		
 		if (!login.getUserId().equals(userId)) {
-			return "redirect:/proudct/list";
+			AdminDTO adminLogin = (AdminDTO)session.getAttribute("adminLogin");
+			if (!adminLogin.getAdminId().equals(adminLogin.getAdminId())) {
+				return "redirect:/";
+			}
 		}
+		
 
 		UserDTO uDto = uService.read(userId);
 
@@ -447,8 +456,33 @@ public class UserController {
 		return "/user/read";
 	}
 
+	@RequestMapping(value = "/user/search", method = RequestMethod.GET)
+	public void search(Integer curpage, String criteria, String keyword, Model model) {
+		if (curpage == null) {
+			curpage = 1;
+		}
+
+		PageTO<UserDTO> pt = uService.search(curpage, criteria, keyword);
+		model.addAttribute("list", pt.getList());
+		model.addAttribute("pt", pt);
+		model.addAttribute("criteria", criteria);
+		model.addAttribute("keyword", keyword);
+
+	}
+	
+	
+	
 	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
-	public String list(Integer curpage, Model model) {
+	public String list(Integer curpage, Model model, HttpSession session) {
+		
+		AdminDTO adminLogin = (AdminDTO)session.getAttribute("adminLogin");
+		BossDTO bossLogin = (BossDTO)session.getAttribute("bossLogin");
+		
+		
+		if (!(adminLogin.equals(adminLogin)||!(bossLogin.equals(bossLogin)))) {
+			return "redirect:/";
+		}
+		
 
 		// List<UserDTO> list = uService.list();
 		if (curpage == null) {
@@ -464,11 +498,47 @@ public class UserController {
 		return "/user/list";
 	}
 
+	
+	
+	
+	@RequestMapping(value = "/user/logout", method = RequestMethod.GET)
+	public String logout() {
+
+		return "redirect:/user/loginget";
+	}
+
+	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
+	public void login(UserDTO uDTO, Model model, HttpServletRequest request) throws Exception {
+		
+		String uPassword = uDTO.getuPassword();
+		uDTO.setuPassword(SHA256Util.encrypt(uPassword));
+		
+		
+		UserDTO login = uService.login(uDTO);
+		model.addAttribute("login", login);
+		model.addAttribute("LOGIN_ERR_MSG", "로그인 실패");
+	}
+
+
+	@RequestMapping(value = "/user/loginget", method = RequestMethod.GET)
+	public String login(HttpServletRequest request) {
+	
+
+		return "/user/login";
+	}
+
+	
+	
+	
 	@RequestMapping(value = "/user/insert", method = RequestMethod.POST)
 	public String insert(UserDTO uDto) {
+		
+		String encryPassword =	SHA256Util.encrypt(uDto.getuPassword());
+		uDto.setuPassword(encryPassword);
+		
 		uService.insert(uDto);
 
-		return "redirect:/user/list";
+		return "redirect:/user/loginget";
 	}
 
 	@RequestMapping(value = "/user/insert", method = RequestMethod.GET)

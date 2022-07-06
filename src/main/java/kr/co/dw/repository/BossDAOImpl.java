@@ -56,6 +56,13 @@ public class BossDAOImpl implements BossDAO {
 		sqlSession.delete(NAMESPACE+".delete", bossId);
 		
 	}
+
+
+	@Override
+	public BossDTO login(BossDTO bDTO) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".login", bDTO);
+	}
 	
 
 }
