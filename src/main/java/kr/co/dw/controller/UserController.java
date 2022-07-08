@@ -36,8 +36,8 @@ import kr.co.dw.domain.UserDTO;
 import kr.co.dw.service.AdminService;
 import kr.co.dw.service.BossService;
 import kr.co.dw.service.UserService;
-import kr.co.dw.utils.AES256Util;
 import kr.co.dw.utils.SHA256Util;
+
 
 import javax.mail.Address;
 import javax.mail.Authenticator;
@@ -301,19 +301,17 @@ public class UserController {
 
 	
 	
-	
-	
-	
-	
-	
+
 	
 	@RequestMapping(value = "/user/findpw", method = RequestMethod.GET)
 	public void findPwGET() throws Exception {
 	}
 
 	@RequestMapping(value = "/user/findpw", method = RequestMethod.POST)
-	public void findPwPOST(@ModelAttribute UserDTO uDTO, HttpServletResponse response) throws Exception {
-		uService.findPw(response, uDTO);
+	public void findPwPOST(@ModelAttribute UserDTO uDto, HttpServletResponse response) throws Exception {
+		
+		
+		uService.findPw(response, uDto);
 	}
 
 	@RequestMapping(value = "/user/findid", method = RequestMethod.POST)
@@ -335,6 +333,22 @@ public class UserController {
 	}
 
 
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/user/phoneCheck", method = RequestMethod.POST)
+	public int checkPhone(HttpServletRequest req) throws Exception {
+		String uPhone = req.getParameter("uPhone");
+
+		int result = uService.checkPhone(uPhone);
+
+		if (uPhone == "") {
+			result = -1;
+		}
+
+		return result;
+	}
 	
 	
 	@ResponseBody
@@ -420,8 +434,8 @@ public class UserController {
 		UserDTO login = (UserDTO) session.getAttribute("login");
 		AdminDTO adminLogin = (AdminDTO)session.getAttribute("adminLogin");
 		
-		if (!login.getUserId().equals(userId)) {
-			if (!adminLogin.getAdminId().equals(adminLogin.getAdminId())) {
+		if (adminLogin == null) {
+			if (login == null || !login.getUserId().equals(userId)) {
 				return "redirect:/";
 			}
 		}
@@ -438,16 +452,14 @@ public class UserController {
 	public String read(@PathVariable("userId") String userId, Model model, HttpSession session) {
 
 		UserDTO login = (UserDTO) session.getAttribute("login");
+		AdminDTO adminLogin = (AdminDTO)session.getAttribute("adminLogin");
 		
-		
-		
-		if (!login.getUserId().equals(userId)) {
-			AdminDTO adminLogin = (AdminDTO)session.getAttribute("adminLogin");
-			if (!adminLogin.getAdminId().equals(adminLogin.getAdminId())) {
+		if (adminLogin == null) {
+			if (login == null || !login.getUserId().equals(userId)) {
 				return "redirect:/";
 			}
 		}
-		
+			
 
 		UserDTO uDto = uService.read(userId);
 
@@ -529,7 +541,6 @@ public class UserController {
 
 	
 	
-	
 	@RequestMapping(value = "/user/insert", method = RequestMethod.POST)
 	public String insert(UserDTO uDto) {
 		
@@ -540,6 +551,8 @@ public class UserController {
 
 		return "redirect:/user/loginget";
 	}
+	
+	
 
 	@RequestMapping(value = "/user/insert", method = RequestMethod.GET)
 	public String insert() {

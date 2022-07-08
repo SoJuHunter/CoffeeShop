@@ -80,6 +80,13 @@ public class UserDAOImpl implements UserDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(NAMESPACE+".checkEmail", uEmail);
 	}
+	
+	
+	@Override
+	public int checkPhone(String uPhone) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".checkPhone", uPhone);
+	}
 
 	@Override
 	public UserDTO login(UserDTO uDTO) {
@@ -156,6 +163,8 @@ public class UserDAOImpl implements UserDAO {
 		sqlSession.update(NAMESPACE+".modifyPw", uDto);
 		
 	}
+
+
 
 
 

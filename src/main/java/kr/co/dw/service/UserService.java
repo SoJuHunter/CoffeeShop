@@ -26,6 +26,8 @@ public interface UserService {
 	int checkNk(String uNickname);
 
 	int checkEmail(String uEmail);
+	
+	int checkPhone(String uPhone);
 
 	UserDTO login(UserDTO uDTO);
 
@@ -40,6 +42,8 @@ public interface UserService {
 	PageTO<UserDTO> search(Integer curpage, String criteria, String keyword);
 
 	void modifyPw(UserDTO uDto);
+
+	
 
 
 }

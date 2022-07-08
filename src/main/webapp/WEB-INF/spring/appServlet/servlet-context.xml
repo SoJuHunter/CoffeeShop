@@ -1,67 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans
+	xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+      http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
-	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="10485760"></beans:property>
-	
-	</beans:bean>
-	
-	
-	<context:component-scan base-package="mytld.mycompany.myapp" />
-	<context:component-scan base-package="kr.co.dw.controller" />
-	
-	
-	<beans:bean id = "loginHandlerInterceptor" class = "kr.co.dw.interceptor.LoginHandlerInterceptor"></beans:bean>
-	<beans:bean id = "authHandlerInterceptor" class = "kr.co.dw.interceptor.AuthHandlerInterceptor"></beans:bean>
-	<beans:bean id = "logoutHandlerInterceptor" class = "kr.co.dw.interceptor.LogoutHandlerInterceptor"></beans:bean>
 
-	
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10485760"></beans:property>
+
+	</beans:bean>
+
+
+	<beans:bean id="jsonView"
+		class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"></beans:bean>
+
+	<context:component-scan
+		base-package="kr.co.dw.controller" />
+	<!-- 양방향 암호화의 서비스 클래스 빈 등록 -->
+	<beans:bean id="AES256Util"
+		class="kr.co.dw.utils.AES256Util" />
+	<beans:bean id="loginHandlerInterceptor"
+		class="kr.co.dw.interceptor.LoginHandlerInterceptor"></beans:bean>
+	<beans:bean id="authHandlerInterceptor"
+		class="kr.co.dw.interceptor.AuthHandlerInterceptor"></beans:bean>
+	<beans:bean id="authHandlerInterceptor2"
+		class="kr.co.dw.interceptor.AuthHandlerInterceptor2"></beans:bean>
+	<beans:bean id="authHandlerInterceptor3"
+		class="kr.co.dw.interceptor.AuthHandlerInterceptor3"></beans:bean>
+	<beans:bean id="logoutHandlerInterceptor"
+		class="kr.co.dw.interceptor.LogoutHandlerInterceptor"></beans:bean>
+
 	<interceptors>
 		<interceptor>
-			<mapping path="/user/logout"/>
-			<mapping path="/user/logout"/>
-     		<beans:ref bean = "logoutHandlerInterceptor"/>	
+			<mapping path="/user/logout" />
+			<mapping path="/admin/logout" />
+			<mapping path="/boss/logout" />
+			<mapping path="/user/delete" />
+			<mapping path="/user/delete/*" />
+			<beans:ref bean="logoutHandlerInterceptor" />
 		</interceptor>
-	
-	
+
+
 		<interceptor>
-       		<mapping path="/user/delete/*"/>
-       		<mapping path="/user/read"/>
-       		<mapping path="/user/read/*"/>
-        	<mapping path="/user/update"/>
-        	<mapping path="/user/update/*"/>
-        	<mapping path="/cart/add"/>
-       		<beans:ref bean = "authHandlerInterceptor"/>
-       </interceptor>
-       
-	
-	
-	
+
+		
+			<mapping path="/cart/add" />
+			<beans:ref bean="authHandlerInterceptor" />
+		</interceptor>
+
+
 		<interceptor>
-			<mapping path="/user/login"/>
-			<mapping path="/admin/login"/>
-			<beans:ref bean="loginHandlerInterceptor"/>		
+		
+			
+			<mapping path="/user/list" />
+			<beans:ref bean="authHandlerInterceptor2" />
+		</interceptor>
+
+
+		<!-- <interceptor> <mapping path="/user/read"/> <mapping path="/user/read/*"/> 
+			<beans:ref bean = "authHandlerInterceptor3"/> </interceptor> -->
+
+
+
+
+		<interceptor>
+			<mapping path="/user/login" />
+			<mapping path="/admin/login" />
+			<mapping path="/boss/login" />
+			<beans:ref bean="loginHandlerInterceptor" />
 		</interceptor>
 	</interceptors>
-	
+
+
 </beans:beans>

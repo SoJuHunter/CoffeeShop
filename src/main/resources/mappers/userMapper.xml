@@ -58,7 +58,7 @@
 
 	<update id="updatePw">
 		UPDATE tbl_user SET uPassword = #{uPassword} WHERE
-		userId = #{userId}
+		userId = #{userId} AND uEmail = #{uEmail}
 	</update>
 
 
@@ -77,6 +77,13 @@
 		userId = #{userId} AND uPassword = #{uPassword}
 
 	</select>
+
+	<select id="checkPhone" resultType="int">
+		SELECT COUNT(*) from tbl_user
+		WHERE uPhone = #{uPhone}
+	</select>
+
+
 
 	<select id="checkEmail" resultType="int">
 		SELECT COUNT(*) from tbl_user
@@ -103,15 +110,16 @@
 
 
 
-<update id="update">
+	<update id="update">
 
-	UPDATE tbl_user SET 
-	uName = #{uName}, uNickname = #{uNickname},
-	uPostnumber = #{uPostnumber}, uAddress = #{uAddress}, udetailAddress = #{udetailAddress},
-	uPhone = #{uPhone}, uEmail = #{uEmail}
-	WHERE userId = #{userId}
+		UPDATE tbl_user SET
+		uName = #{uName}, uNickname = #{uNickname},
+		uPostnumber = #{uPostnumber}, uAddress = #{uAddress}, udetailAddress =
+		#{udetailAddress},
+		uPhone = #{uPhone}, uEmail = #{uEmail}
+		WHERE userId = #{userId}
 
-</update>
+	</update>
 
 
 

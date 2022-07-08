@@ -76,6 +76,14 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return uDAO.checkEmail(uEmail);
 	}
+	
+	
+	@Override
+	public int checkPhone(String uPhone) {
+		// TODO Auto-generated method stub
+		return uDAO.checkPhone(uPhone);
+	}
+	
 
 	@Override
 	public UserDTO login(UserDTO uDTO) {
@@ -209,6 +217,7 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		uDAO.modifyPw(uDto);
 	}
-	
+
+
 
 }

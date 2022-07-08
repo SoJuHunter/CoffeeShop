@@ -27,6 +27,8 @@ public interface UserDAO {
 
 	int checkEmail(String uEmail);
 
+	int checkPhone(String uPhone);
+	
 	UserDTO login(UserDTO uDTO);
 
 	UserDTO findid(UserDTO uDTO);
@@ -44,6 +46,8 @@ public interface UserDAO {
 	Integer getAmountSearch(String criteria, String keyword);
 
 	void modifyPw(UserDTO uDto);
+
+	
 
 
 }
