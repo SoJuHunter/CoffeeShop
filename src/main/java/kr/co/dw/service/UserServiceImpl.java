@@ -218,6 +218,19 @@ public class UserServiceImpl implements UserService {
 		uDAO.modifyPw(uDto);
 	}
 
+	@Override
+	public void insertNV(UserDTO uDTO) {
+		// TODO Auto-generated method stub
+		uDAO.insertNV(uDTO);
+	}
+
+
+	@Override
+	public UserDTO nvlogin(UserDTO uDTO) {
+		// TODO Auto-generated method stub
+		return uDAO.nvlogin(uDTO);
+	}
+
 
 
 }

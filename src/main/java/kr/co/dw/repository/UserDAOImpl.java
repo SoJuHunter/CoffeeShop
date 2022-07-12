@@ -164,6 +164,19 @@ public class UserDAOImpl implements UserDAO {
 		
 	}
 
+	@Override
+	public void insertNV(UserDTO uDTO) {
+		// TODO Auto-generated method stub
+		sqlSession.insert(NAMESPACE+".insertNV", uDTO);
+	}
+
+	@Override
+	public UserDTO nvlogin(UserDTO uDTO) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".nvlogin", uDTO);
+	}
+
+
 
 
 

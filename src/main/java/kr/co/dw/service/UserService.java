@@ -43,6 +43,10 @@ public interface UserService {
 
 	void modifyPw(UserDTO uDto);
 
+	void insertNV(UserDTO uDTO);
+
+	UserDTO nvlogin(UserDTO uDTO);
+
 	
 
 

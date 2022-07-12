@@ -1,33 +1,32 @@
 package kr.co.dw.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
-import java.security.NoSuchAlgorithmException;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
 import javax.inject.Inject;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.Cookie;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CookieValue;
+
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.test.sts.KakaoLoginBO;
+import com.test.sts.NaverLoginBO;
 
 import kr.co.dw.domain.AdminDTO;
 import kr.co.dw.domain.BossDTO;
@@ -61,10 +60,24 @@ public class UserController {
 	@Inject
 	private AdminService aService;
 	
+	@Autowired
+	private NaverLoginBO naverLoginBO;
+	private String apiResult = null;
+
+	@Autowired
+	private KakaoLoginBO kakaoLoginBO;
+
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+		this.naverLoginBO = naverLoginBO;
+	}
+	
+	@Autowired
+	private void setKakaoLoginBO(KakaoLoginBO KakaoLoginBO) {
+		this.kakaoLoginBO = KakaoLoginBO;
+	}
 
 	
-
-
 	// 비밀번호 인증용 외부 클래스
 	public class UserAuthentication extends Authenticator {
 		private PasswordAuthentication pwa;
@@ -421,7 +434,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
-	public String update(UserDTO uDto) {
+	public String update(UserDTO uDto) { 
 		
 		uService.update(uDto);
 
@@ -520,22 +533,39 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
-	public void login(UserDTO uDTO, Model model, HttpServletRequest request) throws Exception {
+	public void login(UserDTO uDTO, Model model, HttpServletRequest request, HttpSession session) throws Exception {
+
 		
 		String uPassword = uDTO.getuPassword();
 		uDTO.setuPassword(SHA256Util.encrypt(uPassword));
 		
+	
 		
 		UserDTO login = uService.login(uDTO);
 		model.addAttribute("login", login);
 		model.addAttribute("LOGIN_ERR_MSG", "로그인 실패");
-	}
+			
+		}
 
 
-	@RequestMapping(value = "/user/loginget", method = RequestMethod.GET)
-	public String login(HttpServletRequest request) {
+	@RequestMapping(value = "/user/loginget", method ={ RequestMethod.GET, RequestMethod.POST })
+	public String login(HttpServletRequest request, Model model, HttpSession session){
 	
-
+		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
+		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+		
+		//https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
+		//redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
+		System.out.println("네이버:" + naverAuthUrl);
+		
+		//네이버 
+		model.addAttribute("url", naverAuthUrl);
+		
+		
+		String kakaoAuthUrl = kakaoLoginBO.getAuthorizationUrl(session);
+		System.out.println("카카오:" + kakaoAuthUrl);		
+		model.addAttribute("urlKakao", kakaoAuthUrl);	
+		
 		return "/user/login";
 	}
 

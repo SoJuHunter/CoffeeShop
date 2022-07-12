@@ -33,6 +33,11 @@
 	</beans:bean>
 
 
+	<beans:bean id="naverLoginBO"
+		class="com.test.sts.NaverLoginBO" />
+	<beans:bean id="kakaoLoginBO"
+		class="com.test.sts.KakaoLoginBO" />
+
 	<beans:bean id="jsonView"
 		class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"></beans:bean>
 
@@ -65,15 +70,15 @@
 
 		<interceptor>
 
-		
+
 			<mapping path="/cart/add" />
 			<beans:ref bean="authHandlerInterceptor" />
 		</interceptor>
 
 
 		<interceptor>
-		
-			
+
+
 			<mapping path="/user/list" />
 			<beans:ref bean="authHandlerInterceptor2" />
 		</interceptor>
@@ -89,6 +94,8 @@
 			<mapping path="/user/login" />
 			<mapping path="/admin/login" />
 			<mapping path="/boss/login" />
+			<mapping path="/callback" />
+			<mapping path="/callbackKakao" />
 			<beans:ref bean="loginHandlerInterceptor" />
 		</interceptor>
 	</interceptors>

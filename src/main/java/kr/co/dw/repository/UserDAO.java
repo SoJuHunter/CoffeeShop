@@ -47,6 +47,10 @@ public interface UserDAO {
 
 	void modifyPw(UserDTO uDto);
 
+	void insertNV(UserDTO uDTO);
+
+	UserDTO nvlogin(UserDTO uDTO);
+
 	
 
 
