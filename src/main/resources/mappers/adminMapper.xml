@@ -4,19 +4,48 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="kr.co.dw.admin">
   
-  	<select id="login" resultType="AdminDTO">
+   <select id="login" resultType="AdminDTO">
 
-		SELECT * FROM tbl_admin WHERE
-		adminId = #{adminId} AND aPassword = #{aPassword}
+      SELECT * FROM tbl_admin WHERE adminId = #{adminId} AND aPassword = #{aPassword}
 
-	</select>
-  
+   </select>
   
   	<delete id="delete">
   	
   		DELETE FROM tbl_admin WHERE adminId = #{adminId}
   	
   	</delete>
+  	
+  	
+	<!-- 주문 리스트 -->
+	<select id="getOrderList" resultType="OrderDTO">
+		<![CDATA[
+		SELECT * 
+		FROM(
+		    SELECT rownum rn, orderId, userId, orderstate, orderdate
+		    from tbl_order
+		    WHERE rownum <= #{pageNum} * #{amount} 
+		]]>    
+		<if test="keyword != null">
+			and userId like '%'||#{keyword}||'%'
+		</if>
+		<![CDATA[
+		    
+		    ORDER BY orderdate desc
+		    )
+		WHERE rn > (#{pageNum} -1) * #{amount}
+		]]>
+	</select>
+	
+	
+	
+	<!-- 상품 총 개수 -->
+	<select id="getOrderTotal" resultType="int">
+		SELECT count(*) FROM tbl_order
+		<if test="keyword != null">
+	    	WHERE userId like '%'||#{keyword}||'%'
+	    </if>
+	</select>
   
 	
 	<update id="update">

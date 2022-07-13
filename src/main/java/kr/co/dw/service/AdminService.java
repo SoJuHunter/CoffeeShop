@@ -3,6 +3,8 @@ package kr.co.dw.service;
 import java.util.List;
 
 import kr.co.dw.domain.AdminDTO;
+import kr.co.dw.domain.Criteria;
+import kr.co.dw.domain.OrderDTO;
 
 public interface AdminService {
 
@@ -20,4 +22,9 @@ public interface AdminService {
 
 	AdminDTO login(AdminDTO aDTO);
 
+	/* 주문 상품 리스트 */
+	List<OrderDTO> getOrderList(Criteria cri);
+	
+	/* 주문 총 갯수 */
+	int getOrderTotal(Criteria cri);
 }

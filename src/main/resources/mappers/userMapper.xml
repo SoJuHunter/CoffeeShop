@@ -4,13 +4,20 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.dw.user">
 
+   <update id="modifyPw">
 
+      UPDATE tbl_user SET uPassword = #{uPassword} WHERE
+      userId = #{userId}
 
-
-
-
-
-	<select id="naverChk" resultType="UserDTO">
+   </update>
+   
+   <!-- 주문관련 -->
+	<select id="getUserInfo" resultType="UserDTO">
+		SELECT userId, uName, uNickname, uPostnumber, uAddress, udetailAddress, uPhone, uEmail 
+		FROM tbl_user 
+  		WHERE userId = #{userId}
+	</select>
+<select id="naverChk" resultType="UserDTO">
 	
 	SELECT UserId, uNickname, uEmail FROM tbl_user WHERE uEmail = #{uEmail}
 	
@@ -22,13 +29,6 @@
 		
 	</insert>
 
-
-	<update id="modifyPw">
-
-		UPDATE tbl_user SET uPassword = #{uPassword} WHERE
-		userId = #{userId}
-
-	</update>
 
 	<sql id="sql_where_part">
 		<if test="criteria != null">
@@ -183,6 +183,5 @@
 		SELECT * FROM tbl_user ORDER BY
 		uSigndate ASC
 	</select>
-
 
 </mapper>

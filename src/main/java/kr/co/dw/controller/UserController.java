@@ -1,6 +1,5 @@
 package kr.co.dw.controller;
 
-
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -30,13 +29,17 @@ import com.test.sts.NaverLoginBO;
 
 import kr.co.dw.domain.AdminDTO;
 import kr.co.dw.domain.BossDTO;
+import kr.co.dw.domain.Criteria;
+import kr.co.dw.domain.OLPageDTO;
+import kr.co.dw.domain.OrderCancelDTO;
+import kr.co.dw.domain.OrderDTO;
 import kr.co.dw.domain.PageTO;
 import kr.co.dw.domain.UserDTO;
 import kr.co.dw.service.AdminService;
 import kr.co.dw.service.BossService;
+import kr.co.dw.service.OrderService;
 import kr.co.dw.service.UserService;
 import kr.co.dw.utils.SHA256Util;
-
 
 import javax.mail.Address;
 import javax.mail.Authenticator;
@@ -50,7 +53,6 @@ import javax.mail.internet.MimeMessage;
 @Controller
 public class UserController {
 
-
 	@Inject
 	private UserService uService;
 
@@ -59,7 +61,10 @@ public class UserController {
 
 	@Inject
 	private AdminService aService;
-	
+
+	@Inject
+	private OrderService oService;
+
 	@Autowired
 	private NaverLoginBO naverLoginBO;
 	private String apiResult = null;
@@ -71,13 +76,12 @@ public class UserController {
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
 		this.naverLoginBO = naverLoginBO;
 	}
-	
+
 	@Autowired
 	private void setKakaoLoginBO(KakaoLoginBO KakaoLoginBO) {
 		this.kakaoLoginBO = KakaoLoginBO;
 	}
 
-	
 	// 비밀번호 인증용 외부 클래스
 	public class UserAuthentication extends Authenticator {
 		private PasswordAuthentication pwa;
@@ -138,10 +142,6 @@ public class UserController {
 
 	}
 
-	
-	
-	
-	
 	@RequestMapping(value = "/admin/logout", method = RequestMethod.GET)
 	public String adminlogout() {
 
@@ -154,8 +154,6 @@ public class UserController {
 		AdminDTO adminLogin = aService.login(aDTO);
 		model.addAttribute("adminLogin", adminLogin);
 		model.addAttribute("adminLOGIN_ERR_MSG", "로그인 실패");
-		
-		System.out.println("@@@@@@@@@@@@@@@@"+adminLogin);
 
 	}
 
@@ -181,7 +179,16 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/admin/update/{adminId}", method = RequestMethod.GET)
-	public String adminUpdate(@PathVariable("adminId") String adminId, Model model) {
+	public String adminUpdate(@PathVariable("adminId") String adminId, Model model, HttpSession session) {
+
+		BossDTO bossLogin = (BossDTO) session.getAttribute("bossLogin");
+		AdminDTO adminLogin = (AdminDTO) session.getAttribute("adminLogin");
+
+		if (bossLogin == null) {
+			if (adminLogin == null || !adminLogin.getAdminId().equals(adminId)) {
+				return "redirect:/";
+			}
+		}
 
 		AdminDTO aDto = aService.updateUI(adminId);
 
@@ -191,7 +198,16 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/admin/read/{adminId}", method = RequestMethod.GET)
-	public String adminRead(@PathVariable("adminId") String adminId, Model model) {
+	public String adminRead(@PathVariable("adminId") String adminId, Model model, HttpSession session) {
+
+		BossDTO bossLogin = (BossDTO) session.getAttribute("bossLogin");
+		AdminDTO adminLogin = (AdminDTO) session.getAttribute("adminLogin");
+
+		if (bossLogin == null) {
+			if (adminLogin == null || !adminLogin.getAdminId().equals(adminId)) {
+				return "redirect:/";
+			}
+		}
 
 		AdminDTO aDto = aService.read(adminId);
 
@@ -201,7 +217,17 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/admin/list", method = RequestMethod.GET)
-	public String adminList(Model model) {
+	public String adminList(Model model, HttpSession session) {
+
+		AdminDTO adminLogin = (AdminDTO) session.getAttribute("adminLogin");
+		BossDTO bossLogin = (BossDTO) session.getAttribute("bossLogin");
+
+		if (adminLogin == null) {
+			if (bossLogin == null) {
+				return "redirect:/";
+			}
+		}
+
 		List<AdminDTO> aList = aService.list();
 
 		model.addAttribute("aList", aList);
@@ -217,21 +243,49 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/admin/insert", method = RequestMethod.GET)
-	public String adminInsert() {
+	public String adminInsert(HttpSession session) {
+
+		AdminDTO adminLogin = (AdminDTO) session.getAttribute("adminLogin");
+		if (adminLogin == null) {
+			return "redirect:/";
+		}
 
 		return "/admin/insert";
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/*
+	 * 주문삭제
+	 * 
+	 * @RequestMapping(value = "admin/orderCancel", method = RequestMethod.POST)
+	 * public String orderCancelPOST(OrderCancelDTO ocDto) {
+	 * oService.orderCancel(ocDto); return "redirect:/admin/orderList?keyword=" +
+	 * ocDto.getKeyword() + "&amount=" + ocDto.getAmount() + "&pageNum=" +
+	 * ocDto.getPageNum(); }
+	 */
+
+	/* 주문 현황 페이지 */
+	@RequestMapping(value = "/admin/orderList", method = RequestMethod.GET)
+	public String orderListGET(Criteria cri, Model model, HttpSession session) {
+
+		AdminDTO adminLogin = (AdminDTO) session.getAttribute("adminLogin");
+		BossDTO bossLogin = (BossDTO) session.getAttribute("bossLogin");
+
+		if (adminLogin == null) {
+			if (bossLogin == null) {
+				return "redirect:/";
+			}
+		}
+
+		List<OrderDTO> list = aService.getOrderList(cri);
+		if (!list.isEmpty()) {
+			model.addAttribute("list", list);
+			model.addAttribute("pageMaker", new OLPageDTO(cri, aService.getOrderTotal(cri)));
+		} else {
+			model.addAttribute("listCheck", "empty");
+		}
+		return "/admin/orderList";
+	}
+
 	@RequestMapping(value = "/boss/logout", method = RequestMethod.GET)
 	public String bosslogout() {
 
@@ -252,9 +306,7 @@ public class UserController {
 
 		return "/boss/login";
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/boss/delete/{bossId}", method = RequestMethod.POST)
 	public String bossDelete(@PathVariable("bossId") String bossId) {
 		bService.delete(bossId);
@@ -271,7 +323,11 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/boss/update/{bossId}", method = RequestMethod.GET)
-	public String bossUpdate(@PathVariable("bossId") String bossId, Model model) {
+	public String bossUpdate(@PathVariable("bossId") String bossId, Model model, HttpSession session) {
+		BossDTO bossLogin = (BossDTO) session.getAttribute("bossLogin");
+		if (!bossLogin.getBossId().equals(bossId)) {
+			return "redirect:/";
+		}
 
 		BossDTO bDto = bService.updateUI(bossId);
 
@@ -281,7 +337,11 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/boss/read/{bossId}", method = RequestMethod.GET)
-	public String bossRead(@PathVariable("bossId") String bossId, Model model) {
+	public String bossRead(@PathVariable("bossId") String bossId, Model model, HttpSession session) {
+		BossDTO bossLogin = (BossDTO) session.getAttribute("bossLogin");
+		if (!bossLogin.getBossId().equals(bossId)) {
+			return "redirect:/";
+		}
 
 		BossDTO bDto = bService.read(bossId);
 
@@ -291,7 +351,13 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/boss/list", method = RequestMethod.GET)
-	public String bossList(Model model) {
+	public String bossList(Model model, HttpSession session) {
+
+		BossDTO bossLogin = (BossDTO) session.getAttribute("bossLogin");
+		if (bossLogin == null) {
+			return "redirect:/";
+		}
+
 		List<BossDTO> bList = bService.list();
 
 		model.addAttribute("bList", bList);
@@ -307,23 +373,22 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/boss/insert", method = RequestMethod.GET)
-	public String bossInsert() {
+	public String bossInsert(HttpSession session) {
+		BossDTO bossLogin = (BossDTO) session.getAttribute("bossLogin");
+		if (bossLogin == null) {
+			return "redirect:/";
+		}
 
 		return "/boss/insert";
 	}
 
-	
-	
-
-	
 	@RequestMapping(value = "/user/findpw", method = RequestMethod.GET)
 	public void findPwGET() throws Exception {
 	}
 
 	@RequestMapping(value = "/user/findpw", method = RequestMethod.POST)
 	public void findPwPOST(@ModelAttribute UserDTO uDto, HttpServletResponse response) throws Exception {
-		
-		
+
 		uService.findPw(response, uDto);
 	}
 
@@ -345,10 +410,6 @@ public class UserController {
 		return "/user/findid";
 	}
 
-
-	
-	
-	
 	@ResponseBody
 	@RequestMapping(value = "/user/phoneCheck", method = RequestMethod.POST)
 	public int checkPhone(HttpServletRequest req) throws Exception {
@@ -362,8 +423,7 @@ public class UserController {
 
 		return result;
 	}
-	
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/user/emailCheck", method = RequestMethod.POST)
 	public int checkEmail(HttpServletRequest req) throws Exception {
@@ -405,37 +465,34 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/delete/{userId}", method = RequestMethod.POST)
-	   public String delete(@PathVariable("userId") String userId, Model model, HttpSession session) {
+	public String delete(@PathVariable("userId") String userId, Model model, HttpSession session) {
 
-	      /*
-	       * UserDTO login = (UserDTO) session.getAttribute("login");
-	       * 
-	       * if (!login.getUserId().equals(userId)) { return "redirect:/"; }
-	       */
-	      model.addAttribute("userId", userId);
+		/*
+		 * UserDTO login = (UserDTO) session.getAttribute("login");
+		 * 
+		 * if (!login.getUserId().equals(userId)) { return "redirect:/"; }
+		 */
+		model.addAttribute("userId", userId);
 
-	      uService.delete(userId);
+		uService.delete(userId);
 
-	      return "redirect:/user/logout";
-	   }
-	   
-	
-	
+		return "redirect:/user/logout";
+	}
+
 	@RequestMapping(value = "/user/modifyPw", method = RequestMethod.POST)
 	public String modifyPw(UserDTO uDto) {
-		
-		String encryPassword =	SHA256Util.encrypt(uDto.getuPassword());
+
+		String encryPassword = SHA256Util.encrypt(uDto.getuPassword());
 		uDto.setuPassword(encryPassword);
-		
-		
+
 		uService.modifyPw(uDto);
 
 		return "redirect:/user/logout";
 	}
 
 	@RequestMapping(value = "/user/update", method = RequestMethod.POST)
-	public String update(UserDTO uDto) { 
-		
+	public String update(UserDTO uDto) {
+
 		uService.update(uDto);
 
 		return "redirect:/";
@@ -445,8 +502,8 @@ public class UserController {
 	public String update(@PathVariable("userId") String userId, Model model, HttpSession session) {
 
 		UserDTO login = (UserDTO) session.getAttribute("login");
-		AdminDTO adminLogin = (AdminDTO)session.getAttribute("adminLogin");
-		
+		AdminDTO adminLogin = (AdminDTO) session.getAttribute("adminLogin");
+
 		if (adminLogin == null) {
 			if (login == null || !login.getUserId().equals(userId)) {
 				return "redirect:/";
@@ -459,20 +516,18 @@ public class UserController {
 
 		return "/user/update";
 	}
-	
 
 	@RequestMapping(value = "/user/read/{userId}", method = RequestMethod.GET)
 	public String read(@PathVariable("userId") String userId, Model model, HttpSession session) {
 
 		UserDTO login = (UserDTO) session.getAttribute("login");
-		AdminDTO adminLogin = (AdminDTO)session.getAttribute("adminLogin");
-		
+		AdminDTO adminLogin = (AdminDTO) session.getAttribute("adminLogin");
+
 		if (adminLogin == null) {
 			if (login == null || !login.getUserId().equals(userId)) {
 				return "redirect:/";
 			}
 		}
-			
 
 		UserDTO uDto = uService.read(userId);
 
@@ -494,20 +549,18 @@ public class UserController {
 		model.addAttribute("keyword", keyword);
 
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
 	public String list(Integer curpage, Model model, HttpSession session) {
-		
-		AdminDTO adminLogin = (AdminDTO)session.getAttribute("adminLogin");
-		BossDTO bossLogin = (BossDTO)session.getAttribute("bossLogin");
-		
-		
-		if (!(adminLogin.equals(adminLogin)||!(bossLogin.equals(bossLogin)))) {
-			return "redirect:/";
+
+		AdminDTO adminLogin = (AdminDTO) session.getAttribute("adminLogin");
+		BossDTO bossLogin = (BossDTO) session.getAttribute("bossLogin");
+
+		if (adminLogin == null) {
+			if (bossLogin == null) {
+				return "redirect:/";
+			}
 		}
-		
 
 		// List<UserDTO> list = uService.list();
 		if (curpage == null) {
@@ -523,9 +576,6 @@ public class UserController {
 		return "/user/list";
 	}
 
-	
-	
-	
 	@RequestMapping(value = "/user/logout", method = RequestMethod.GET)
 	public String logout() {
 
@@ -535,54 +585,45 @@ public class UserController {
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
 	public void login(UserDTO uDTO, Model model, HttpServletRequest request, HttpSession session) throws Exception {
 
-		
 		String uPassword = uDTO.getuPassword();
 		uDTO.setuPassword(SHA256Util.encrypt(uPassword));
-		
-	
-		
+
 		UserDTO login = uService.login(uDTO);
 		model.addAttribute("login", login);
 		model.addAttribute("LOGIN_ERR_MSG", "로그인 실패");
-			
-		}
 
+	}
 
-	@RequestMapping(value = "/user/loginget", method ={ RequestMethod.GET, RequestMethod.POST })
-	public String login(HttpServletRequest request, Model model, HttpSession session){
-	
+	@RequestMapping(value = "/user/loginget", method = { RequestMethod.GET, RequestMethod.POST })
+	public String login(HttpServletRequest request, Model model, HttpSession session) {
+
 		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
 		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
-		
-		//https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
-		//redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
+
+		// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
+		// redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
 		System.out.println("네이버:" + naverAuthUrl);
-		
-		//네이버 
+
+		// 네이버
 		model.addAttribute("url", naverAuthUrl);
-		
-		
+
 		String kakaoAuthUrl = kakaoLoginBO.getAuthorizationUrl(session);
-		System.out.println("카카오:" + kakaoAuthUrl);		
-		model.addAttribute("urlKakao", kakaoAuthUrl);	
-		
+		System.out.println("카카오:" + kakaoAuthUrl);
+		model.addAttribute("urlKakao", kakaoAuthUrl);
+
 		return "/user/login";
 	}
 
-	
-	
 	@RequestMapping(value = "/user/insert", method = RequestMethod.POST)
 	public String insert(UserDTO uDto) {
-		
-		String encryPassword =	SHA256Util.encrypt(uDto.getuPassword());
+
+		String encryPassword = SHA256Util.encrypt(uDto.getuPassword());
 		uDto.setuPassword(encryPassword);
-		
+
 		uService.insert(uDto);
 
 		return "redirect:/user/loginget";
 	}
-	
-	
 
 	@RequestMapping(value = "/user/insert", method = RequestMethod.GET)
 	public String insert() {

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.dw.domain.AdminDTO;
+import kr.co.dw.domain.Criteria;
+import kr.co.dw.domain.OrderDTO;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO {
@@ -59,5 +61,17 @@ public class AdminDAOImpl implements AdminDAO {
 	public AdminDTO login(AdminDTO aDTO) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne(NAMESPACE+".login", aDTO);
+	}
+
+	@Override
+	public List<OrderDTO> getOrderList(Criteria cri) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(NAMESPACE+".getOrderList", cri);
+	}
+
+	@Override
+	public int getOrderTotal(Criteria cri) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne(NAMESPACE+".getOrderTotal", cri);
 	}
 }

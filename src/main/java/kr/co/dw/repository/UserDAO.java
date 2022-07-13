@@ -9,49 +9,52 @@ import kr.co.dw.domain.UserDTO;
 
 public interface UserDAO {
 
-	void insert(UserDTO uDto);
+void insert(UserDTO uDto);
 
-	List<UserDTO> list();
+   List<UserDTO> list();
 
-	UserDTO read(String userId);
+   UserDTO read(String userId);
 
-	UserDTO updateUI(String userId);
+   UserDTO updateUI(String userId);
 
-	void update(UserDTO uDto);
+   void update(UserDTO uDto);
 
-	void delete(String userId);
+   void delete(String userId);
 
-	int checkId(String userId);
+   int checkId(String userId);
 
-	int checkNk(String uNickname);
+   int checkNk(String uNickname);
 
-	int checkEmail(String uEmail);
+   int checkEmail(String uEmail);
+   
+   int checkPhone(String uPhone);
 
-	int checkPhone(String uPhone);
-	
-	UserDTO login(UserDTO uDTO);
+   UserDTO login(UserDTO uDTO);
 
-	UserDTO findid(UserDTO uDTO);
+   UserDTO findid(UserDTO uDTO);
 
-	UserDTO readUser(String userId);
+   UserDTO readUser(String userId);
 
-	void updatePw(UserDTO uDTO);
+	void updatePw(UserDTO uDTO); 
 
-	Integer getAmountUser();
+   Integer getAmountUser();
 
-	List<UserDTO> list(PageTO<UserDTO> pt);
-	
-	List<UserDTO> search(PageTO<UserDTO> pt, String criteria, String keyword);
+   List<UserDTO> list(PageTO<UserDTO> pt);
+   
+   List<UserDTO> search(PageTO<UserDTO> pt, String criteria, String keyword);
 
-	Integer getAmountSearch(String criteria, String keyword);
+   Integer getAmountSearch(String criteria, String keyword);
 
-	void modifyPw(UserDTO uDto);
+   void modifyPw(UserDTO uDto);
 
-	void insertNV(UserDTO uDTO);
+void insertNV(UserDTO uDTO);
 
-	UserDTO nvlogin(UserDTO uDTO);
+UserDTO naverChk(UserDTO uDTO);
 
-	
+UserDTO nvlogin(UserDTO uDTO);
+
+UserDTO getUserInfo(String userId);
+
 
 
 }

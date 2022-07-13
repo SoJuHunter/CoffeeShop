@@ -3,6 +3,8 @@ package kr.co.dw.repository;
 import java.util.List;
 
 import kr.co.dw.domain.AdminDTO;
+import kr.co.dw.domain.Criteria;
+import kr.co.dw.domain.OrderDTO;
 
 public interface AdminDAO {
 
@@ -19,5 +21,12 @@ public interface AdminDAO {
 	void update(AdminDTO aDto);
 
 	AdminDTO login(AdminDTO aDTO);
-
+	
+	//주문 상품 리스트
+	List<OrderDTO> getOrderList(Criteria cri);
+	
+	//주문 총 개수
+	int getOrderTotal(Criteria cri);
+	
+	
 }

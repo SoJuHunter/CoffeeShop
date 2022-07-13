@@ -35,12 +35,12 @@
 				<h3 class="card-title" style="color: #555555;" align="left">
 					&nbsp;&nbsp;&nbsp;관리자 로그인</h3>
 			</div>
-			<form action="/admin/login" method="post">
+			<form action="/boss/login" method="post">
 				<div class="checkbox">
-					<input type="radio" name="mode" value="admin"
-						onclick="window.location.href='/boss/loginget'"> 운영자
+					<input type="radio" name="mode" value="boss"
+						checked> 운영자
 					&nbsp;&nbsp; <label> <input type="radio" name="mode"
-						value="admin" checked> 관리자 &nbsp;&nbsp; <input
+						value="admin" onclick="window.location.href='/admin/loginget'" > 관리자 &nbsp;&nbsp; <input
 						type="radio" name="mode" value="member"
 						onclick="window.location.href='/user/loginget'"> 일반회원
 					</label>
@@ -48,13 +48,13 @@
 
 				<div class="card-body">
 
-					<input type="text" name="adminId" id="adminId" class="form-control"
-						value="${LOGIN_COOKIE.getId.value}" placeholder="관리자 아이디"
+					<input type="text" name="bossId" id="bossId" class="form-control"
+						value="${LOGIN_COOKIE.getId.value}" placeholder="운영자 아이디"
 						autofocus required><BR> <input type="password"
-						name="aPassword" id="aPassword" class="form-control"
-						placeholder="관리자 비밀번호" required><br> <input
+						name="bPassword" id="bPassword" class="form-control"
+						placeholder="운영자 비밀번호" required><br> <input
 						id="btn-Yes" class="btn btn-lg btn-primary btn-block"
-						type="submit" value="관 리 자 로 그 인"> <br> <label
+						type="submit" value="운 영 자 로 그 인"> <br> <label
 						for="useCookie"> <input type="checkbox" id="useCookie"
 						name="useCookie" value="true"> 로그인유지
 					</label>
@@ -74,9 +74,9 @@
 		charset="utf-8"></script>
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 	<script type="text/javascript">
-		let adminLOGIN_ERR_MSG = "${adminLOGIN_ERR_MSG}";
-		if (adminLOGIN_ERR_MSG != "") {
-			alert(adminLOGIN_ERR_MSG);
+		let bossLOGIN_ERR_MSG = "${bossLOGIN_ERR_MSG}";
+		if (bossLOGIN_ERR_MSG != "") {
+			alert(bossLOGIN_ERR_MSG);
 		}
 	</script>
 </body>

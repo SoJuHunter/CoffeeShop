@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.dw.domain.AdminDTO;
+import kr.co.dw.domain.Criteria;
+import kr.co.dw.domain.OrderDTO;
 import kr.co.dw.repository.AdminDAO;
 
 @Service
@@ -57,6 +59,21 @@ public class AdminServiceImpl implements AdminService {
 	public AdminDTO login(AdminDTO aDTO) {
 		// TODO Auto-generated method stub
 		return aDao.login(aDTO);
+	}
+	
+	
+	//상품- 관리자
+	@Override
+	public List<OrderDTO> getOrderList(Criteria cri) {
+		// TODO Auto-generated method stub
+		return aDao.getOrderList(cri);
+	}
+	
+	//상품- 관리자
+	@Override
+	public int getOrderTotal(Criteria cri) {
+		// TODO Auto-generated method stub
+		return aDao.getOrderTotal(cri);
 	}
 	
 }
