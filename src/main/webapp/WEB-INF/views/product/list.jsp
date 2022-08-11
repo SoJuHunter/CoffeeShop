@@ -13,6 +13,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
 </head>
 <body>
+
 	<a href="/product/insert/">제품정보입력</a>
 
 	<div class="jumbotron">
@@ -57,5 +58,33 @@
  
  
 </script>
+=======
+
+<div class="jumbotron">
+		<h1 class="text-center">제품 목록</h1>
+	</div>
+   <table>
+      <thead>
+         <tr>
+            <th>제품번호</th>
+            <th>제품명</th>
+            <th>가격</th>
+
+         </tr>
+      </thead>
+      <tbody>
+
+         <c:forEach items="${list}" var="pDto">
+            <tr>
+               <td><a href="/product/read/${pDto.pno}">${pDto.pno}</a></td>
+               <td>${pDto.pName}</td>
+               <td>${pDto.pPrice}</td>
+
+            </tr>
+         </c:forEach>
+      </tbody>
+   </table>
+
+
 </body>
 </html>
