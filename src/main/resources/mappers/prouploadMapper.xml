@@ -8,6 +8,12 @@
 		DELETE FROM pro_upload WHERE filename = #{filename}
 	</delete>
 
+	
+	<select id="list" resultType="string">
+		SELECT * FROM pro_upload WHERE pno = #{pno}
+	</select>
+
+
 	<select id="getAllUpload" resultType="string">
 		SELECT * FROM pro_upload WHERE pno = #{pno}
 	</select>

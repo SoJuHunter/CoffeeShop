@@ -33,4 +33,10 @@ public class UploadServiceImpl implements UploadService {
 		
 	}
 
+	@Override
+	public List<String> list(int pno) {
+		// TODO Auto-generated method stub
+		return uDao.list(pno);
+	}
+
 }

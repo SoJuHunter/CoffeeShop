@@ -8,4 +8,6 @@ public interface UploadService {
 	List<String> getAllUpload(int pno);
 
 	void insert(ProductDTO pDto);
+
+	List<String> list(int pno);
 }

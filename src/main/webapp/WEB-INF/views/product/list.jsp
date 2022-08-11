@@ -14,6 +14,52 @@
 </head>
 <body>
 
+	<a href="/product/insert/">제품정보입력</a>
+
+	<div class="jumbotron">
+		<h1>제품 목록</h1>
+	</div>
+
+	<div id="uploadedItems" class="row row-cols-3"></div>
+
+
+
+
+
+
+
+	<c:forEach items="${list}" var="pDto">
+		<img src="/displayfile?filename=${pDto.filenameList.get(0)}">
+
+		<a href="/product/read/${pDto.pno}">${pDto.pno}</a>
+		<br>
+               ${pDto.pName}
+               <br>
+               ${pDto.pPrice}
+               <br>
+
+
+	</c:forEach>
+
+	<form action=""></form>
+	<script type="text/javascript" src="/resources/js/tl.js"></script>
+	<script type="text/javascript">
+    
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+</script>
+=======
+
 <div class="jumbotron">
 		<h1 class="text-center">제품 목록</h1>
 	</div>
@@ -38,6 +84,7 @@
          </c:forEach>
       </tbody>
    </table>
+
 
 </body>
 </html>

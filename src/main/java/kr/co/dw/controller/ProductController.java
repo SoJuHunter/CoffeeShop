@@ -69,6 +69,7 @@ public class ProductController {
 	@RequestMapping(value = "/delete/{pno}", method = RequestMethod.POST)
 	public String delete(@PathVariable("pno") int pno) {
 
+
 		List<String> list = uService.getAllUpload(pno);
 		System.out.println(list);
 
@@ -82,6 +83,23 @@ public class ProductController {
 		return "redirect:/product/list";
 
 	}
+
+
+
+		List<String> list = uService.getAllUpload(pno);
+		System.out.println(list);
+
+		pService.delete(pno);
+
+		for (int i = 0; i < list.size(); i++) {
+			String filename = list.get(i);
+			UploadUtils.deleteFile(uploadPath, filename);
+		}
+
+		return "redirect:/product/list";
+
+	}
+
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public ResponseEntity<String> update(MultipartHttpServletRequest request) {
@@ -121,7 +139,13 @@ public class ProductController {
 
 			ProductDTO pDto = new ProductDTO(pno, pName, pContent, pPrice, pStock, pCategory, pSize, pOrigin, null);
 
+
 			pService.update(pDto, arr, fileList);
+
+
+
+			pService.update(pDto, arr, fileList);
+
 
 			for (int i = 0; i < arr.length; i++) {
 				String deletFilename = arr[i];
@@ -137,6 +161,31 @@ public class ProductController {
 		return entity;
 	}
 
+
+	@RequestMapping(value = "/update/{pno}", method = RequestMethod.GET)
+	public String updateUI(@PathVariable("pno") int pno, Model model) {
+
+		ProductDTO pDto = pService.updateUI(pno);
+		model.addAttribute("pDto", pDto);
+		return "/product/update";
+	}
+
+	@RequestMapping (value = "/list", method = RequestMethod.GET)
+	public String list( Model model ) {
+		List<ProductDTO> list = pService.list();
+		
+		for(int i=0; i<list.size(); i++) {
+		int pno = list.get(i).getPno();
+		
+		List<String> filenameList = uService.list(pno);
+		list.get(i).setFilenameList(filenameList);
+		
+		}
+		
+		
+		
+
+
 	@RequestMapping(value = "/update/{pno}", method = RequestMethod.GET)
 	public String updateUI(@PathVariable("pno") int pno, Model model) {
 
@@ -148,6 +197,7 @@ public class ProductController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model) {
 		List<ProductDTO> list = pService.list();
+
 
 		model.addAttribute("list", list);
 		return "/product/list";
