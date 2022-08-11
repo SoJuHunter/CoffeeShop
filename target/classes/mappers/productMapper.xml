@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.dw.product">
+
+<sql id="sql_where_part">
+		<if test="criteria != null">
+		
+			<if test="criteria == 'pName'.toString()">
+				WHERE UPPER(pName) LIKE '%'||UPPER(#{keyword})||'%'
+			</if>
+			
+				<if test="criteria == 'pContent'.toString()">
+				WHERE UPPER(pContent) LIKE '%'||UPPER(#{keyword})||'%'
+			</if>
+			
+			<if test="criteria == 'pCategory'.toString()">
+				WHERE LOWER(pCategory) LIKE  '%'||LOWER(#{keyword})||'%'
+			</if>
+			
+			<if test="criteria == 'pOrigin'.toString()">
+				WHERE LOWER(pOrigin) LIKE  '%'||LOWER(#{keyword})||'%'
+			</if>
+			
+			
+		</if>
+	</sql>
+
+	<select id="search" resultType="ProductDTO">
+		SELECT * FROM product
+		<include refid="sql_where_part"></include>
+		ORDER BY pno DESC
+	</select>
+
+	<select id="getAmountSearch" resultType="integer">
+		SELECT COUNT(pno) FROM product 
+		<include refid="sql_where_part"></include>
+	</select>
+
+<select id="getAmountProduct" resultType="integer">
+SELECT COUNT (pno) FROM product where pCategory = #{category}
+
+
+</select>
+<select id="getAmountStock" resultType="integer">
+SELECT COUNT (pno) FROM product
+
+
+</select>
+
+<!-- 상품 재고 정보 -->
+   <select id="getProductStock" resultType="ProductDTO">
+      SELECT pStock, pno FROM product WHERE pno = #{pno}
+   </select>
+
+<delete id="delete">
+DELETE FROM product WHERE pno = #{pno}
+</delete>
+
+<select id="read" resultType = "ProductDTO">
+
+
+SELECT * FROM product WHERE pno = #{pno}
+
+</select>
+
+  <update id="update">
+      UPDATE product SET pName = #{pName}, pContent =
+      #{pContent}, pPrice =
+      #{pPrice}, pStock = #{pStock}, pCategory = #{pCategory}, pSize = #{pSize},
+      pOrigin = #{pOrigin} WHERE pno = #{pno}
+
+   </update>
+   
+   <select id="stocklist" resultType="ProductDTO">
+
+SELECT * FROM product 
+</select>
+
+
+
+<select id="updateUI" resultType="ProductDTO">
+SELECT * FROM product WHERE pno = #{pno}
+
+</select>
+
+<select id="list" resultType="ProductDTO">
+
+
+      SELECT * FROM product where pCategory = #{category} ORDER BY pno DESC
+
+
+</select>
+
+
+
+
+<insert id="insert">
+
+INSERT INTO product 
+(pno, pName, pContent, pPrice, pStock, pCategory, pSize, pOrigin)
+VALUES 
+(seq_product_pno.NEXTVAL, #{pName}, #{pContent}, #{pPrice}, ${pStock}, #{pCategory}, #{pSize}, #{pOrigin})
+
+<selectKey keyProperty="pno" resultType="Integer" order="AFTER">
+SELECT seq_product_pno.CURRVAL FROM DUAL
+
+</selectKey>
+
+</insert>
+
+
+
+  
+</mapper>
